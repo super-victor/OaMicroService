@@ -1,16 +1,56 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/DocumentCirculation",
+			"style": {
+				"navigationBarTitleText": "公文流转"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息中心"
+			}
+		},
+		{
+			"path": "pages/personal/personal",
+			"style": {
+				"navigationBarTitleText": "个人中心"
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "#FFFFFF",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#5383EC",
+		"backgroundColor": "#5383EC"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#66B4F9",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/icon/home.png",
+			"selectedIconPath": "static/icon/home1.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/message/message",
+			"iconPath": "static/icon/message.png",
+			"selectedIconPath": "static/icon/message1.png",
+			"text": "消息"
+		}, {
+			"pagePath": "pages/personal/personal",
+			"iconPath": "static/icon/mine.png",
+			"selectedIconPath": "static/icon/mine1.png",
+			"text": "我的"
+		}]
 	}
 }
