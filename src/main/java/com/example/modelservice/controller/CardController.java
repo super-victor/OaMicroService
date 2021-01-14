@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-public class cardController {
+public class CardController {
 
     @Resource
     CardHolderMapper cardHolderMapper;
