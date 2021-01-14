@@ -3,7 +3,6 @@ package com.example.modelservice.controller;
 import com.example.modelservice.mapper.CardHolderMapper;
 import com.example.modelservice.pojo.CardHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.cert.ocsp.Req;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,7 +23,7 @@ public class cardController {
     @Resource
     CardHolderMapper cardHolderMapper;
 
-    @GetMapping("/CardHolder")
+    @GetMapping("/findCardHolderByEmployeeId")
     public List<CardHolder> findCardHolderByEmployeeId(Integer employeeId){
         List<CardHolder> cardHolderList = cardHolderMapper.findCardHolderByEmployeeId(employeeId);
         System.out.println(cardHolderList);

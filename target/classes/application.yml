@@ -17,7 +17,7 @@ spring:
     time-zone: GMT+8
 
 ## mybatis
-# sql������̨��ӡִ��sql���
+
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

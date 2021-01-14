@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.MessageMapper">
+
+    <insert id="insertMessage">
+        insert into message (employeeId, type, title, content, isRead) values (#{employeeId}, #{type}, #{title}, #{content}, 0)
+    </insert>
+    <update id="updateIsReadInMessage">
+        update message set isRead = #{isRead} where employeeId = #{employeeId} and messageId = #{messageId}
+    </update>
+    <select id="findMessageByEmployeeId" resultType="com.example.modelservice.pojo.Message">
+        select * from message where employeeId = #{employeeId}
+    </select>
+    <select id="findMessageByEmployeeIdAndIsRead" resultType="com.example.modelservice.pojo.Message">
+        select * from message where employeeId = #{employeeId} and isRead = #{isRead}
+    </select>
+
+
+
+
+</mapper>

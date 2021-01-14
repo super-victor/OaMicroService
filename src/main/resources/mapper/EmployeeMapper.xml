@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.EmployeeMapper">
+
+    <resultMap id="ems" type="com.example.modelservice.pojo.Employee">
+        <id property="employeeId" column="employeeId"></id>
+        <result property="username" column="username"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="email" column="email"></result>
+        <result property="position" column="position"></result>
+        <result property="sex" column="sex"></result>
+        <result property="entryTime" column="entryTime"></result>
+        <association property="department" javaType="com.example.modelservice.pojo.Department">
+            <id property="departmentId" column="departmentId"></id>
+            <result property="name" column="dname"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="roleWithUsers" type="com.example.modelservice.pojo.Role">
+        <id property="roleId" column="roleId"></id>
+        <result property="name" column="name"></result>
+        <collection property="employeeList" javaType="ArrayList" column="roleId" ofType="com.example.modelservice.pojo.Employee" select="findEmployeesByRoleId"/>
+    </resultMap>
+    <insert id="insertIntoEmployeeRole">
+        insert into EmployeeRole (roleId, employeeId) values (#{roleId}, #{employeeId})
+    </insert>
+    <insert id="insertIntoRoleMenu">
+        insert into rolemenu (menuId,roleId) values (#{menuId}, #{roleId})
+    </insert>
+
+    <insert id="insertIntoRoleMenuByCode">
+        insert into rolemenu (menuId,roleId) select menuId,#{roleId} from menu where code = #{code}
+    </insert>
+    <insert id="addAdmin">
+        insert into EmployeeRole (employeeId, roleId) values (#{employeeId},2)
+    </insert>
+
+    <insert id="insertEmployee" useGeneratedKeys="true" keyProperty="employeeId">
+        insert into employee (username, name, password, phone, email, idCard, sex, departmentName,birthday, position, homeAddress, isAccountLocked) values (#{username}, #{name}, #{password}, #{phone}, #{email}, #{idCard}, #{sex}, #{departmentName}, #{birthday}, #{position}, #{homeAddress}, 0);
+    </insert>
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId">
+        insert into role (name) values (#{name})
+    </insert>
+
+    <delete id="deletefromEmployeeRole">
+        delete from EmployeeRole where employeeId = #{employeeId} and roleId = #{roleId}
+    </delete>
+
+    <delete id="deletefromRoleMenu">
+        delete from RoleMenu where roleId = #{roleId} and menuId = #{menuId}
+    </delete>
+    <delete id="deletefromRoleMenuByCode">
+        delete from roleMenu where roleId = #{roleId} and menuId = (select menuId from menu where code = #{code})
+    </delete>
+    <delete id="deleteAdmin">
+        delete from EmployeeRole where employeeId = #{employeeId} and roleId = 2
+    </delete>
+
+    <delete id="deleteEmployee">
+        delete from Message where employeeId = #{employeeId};
+        delete from Meeting where employeeId = #{employeeId};
+        delete from EmployeeRole where employeeId = #{employeeId};
+        delete from receiveFile where sendfileId in (select sendfileId from sendfile where senderId = #{employeeId});
+        delete from sendFile where employeeId = #{employeeId};
+        delete from EmployeeTodo where employeeId = #{employeeId};
+        delete from CardHolder where ownerId = #{employeeId};
+        delete from card where ownerId = #{employeeId};
+        delete from EmployeeSchedule where employeeId = #{employeeId};
+        delete from employee where employeeId = #{employeeId};
+        delete from employee where employeeId = #{employeeId};
+    </delete>
+    <delete id="deleteRole">
+        delete from EmployeeRole where roleId = #{roleId};
+        delete from RoleMenu where roleId = #{roleId};
+        delete from role where roleId = #{roleId};
+    </delete>
+
+
+    <select id="findAllRolesWithEmpolyeeList" resultMap="roleWithUsers">
+        select * from role
+    </select>
+
+    <update id="updatePartlyEmployeeByEmployeeId">
+        update employee set employeeId = #{employeeId},
+        <if test="email != null">,email = #{email},</if>
+        <if test="phone != null">,phone = #{phone}</if>
+        <if test="homeAddress != null">,homeAddress = #{homeAddress}</if>
+        where employeeid = #{employeeId}
+    </update>
+
+    <update id="updateIsAccountLockedInEmployee">
+        update employee set isAccountLocked = #{isAccountLocked} where employeeId = #{employeeId}
+    </update>
+
+    <select id="findEmployeeByUsername" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where username = #{username}
+    </select>
+
+    <select id="findRolesByEmployeeId" resultType="com.example.modelservice.pojo.Role">
+        select role.roleId,role.name,employeerole.createTime,employeerole.updateTime from employeerole,role where employeeId = #{employeeId} and employeerole.roleId = role.roleId
+    </select>
+
+    <select id="findEmployeeByEmployeeId" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where employeeId = #{employeeId}
+    </select>
+
+    <select id="getAllEmployee" resultMap="ems">
+         select employee.employeeId,employee.username,employee.name,employee.phone,employee.email,employee.position,employee.sex,employee.entryTime,department.departmentId,department.name as dname from employee,department where employee.departmentname=department.name
+    </select>
+
+    <select id="getEmployeeBypage" resultMap="ems">
+         select employee.employeeId,employee.username,employee.name,employee.phone,employee.email,employee.position,employee.sex,department.departmentId,department.name as dname
+         from employee,department where employee.departmentname=department.name
+         LIMIT
+		 ${(currentPageNum-1)*pageSize}, ${pageSize}
+    </select>
+
+    <select id="getemployeenumbers" resultType="java.lang.Integer">
+        select count(*) from employee
+    </select>
+
+    <select id="getEmployeeByCondition" resultMap="ems">
+        select employee.employeeId,employee.username,employee.name,employee.phone,employee.email,employee.position,employee.sex,employee.entryTime,department.departmentId,department.name as dname
+        from employee,department where employee.departmentname=department.name
+        <if test="sex !=null">
+            and employee.sex=#{sex}
+        </if>
+        <if test="name !=null">
+            and employee.name like #{name}
+        </if>
+    </select>
+
+    <select id="findRoleByEmployeeIdAndRoleId" resultType="java.lang.Integer">
+        select count(*) from employeerole where employeeId = #{employeeId} and roleId = #{roleId}
+    </select>
+
+    <select id="findEmployeesByRoleId" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where employeeId in (select employeeId from employeerole where roleid = #{roleId})
+    </select>
+
+    <select id="findRoleIdsByUrlPattern" resultType="java.lang.String">
+        select roleId from role where roleId in(select roleId from RoleMenu where menuId = (select menuId from menu where url = #{urlPattern}))
+    </select>
+
+    <select id="findCodesByEmployeeId" resultType="java.lang.String">
+        select code from menu where menuId in (select menuId from RoleMenu where roleId in (select roleId from EmployeeRole where employeeId = #{employeeId}))
+    </select>
+
+    <select id="findAllMenus" resultType="com.example.modelservice.pojo.Menu">
+        select * from menu
+    </select>
+
+    <select id="findAllRoles" resultType="com.example.modelservice.pojo.Role">
+        select * from role
+    </select>
+    <select id="findAllEmployee" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where employeeId != 1
+    </select>
+    <select id="findCodesByRoleId" resultType="java.lang.String">
+        select code from menu where menuId in (select menuId from rolemenu where roleId = #{roleId})
+    </select>
+    <select id="findAllEmployeeExceptA" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where employeeId not in (select employeeId from EmployeeRole where roleId = 1 or roleId = 2)
+    </select>
+    <select id="findAllAdmin" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where employeeId in (select employeeId from EmployeeRole where roleId = 2)
+    </select>
+    <select id="findRoleByRoleId" resultType="com.example.modelservice.pojo.Role">
+        select * from role where roleId = #{roleId}
+    </select>
+    <select id="findMenusByRoleId" resultType="com.example.modelservice.pojo.Menu">
+        select * from menu where menuId in (select menuId from roleMenu where roleId = #{roleId})
+    </select>
+    <select id="findAllRolesExceptA" resultType="com.example.modelservice.pojo.Role">
+        select * from role where roleId != 1 and roleId != 2
+    </select>
+    <select id="findAvailableRolesByEmployeeId" resultType="com.example.modelservice.pojo.Role">
+        select * from role where isable = 1 and roleId in (select roleId from EmployeeRole where employeeId = #{employeeId})
+    </select>
+    <select id="findEmployeesByDepartmentId" resultType="com.example.modelservice.pojo.Employee">
+        select * from employee where departmentName in (select name from department where departmentId = #{departmentId})
+    </select>
+    <select id="findTotalEmployeeNum" resultType="java.lang.Integer">
+        select count(*) from employee
+    </select>
+    <select id="findMenuIsExist" resultType="java.lang.Integer">
+        select count(*) from menu where url = #{url}
+    </select>
+
+
+</mapper>

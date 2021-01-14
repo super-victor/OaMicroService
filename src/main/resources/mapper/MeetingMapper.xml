@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.MeetingMapper">
+    <insert id="addOrderMeeting">
+        insert into meeting(meetingroomid,status,employeeid,name,appoinmentstatus,starttime,endtime,peoplenum,remark)
+        values (#{param1},0,#{param2},#{param3},0,#{param4},#{param5},#{param6},#{param7})
+    </insert>
+    <update id="approveMeeting">
+        update meeting set appoinmentstatus=#{param2} where meetingid=#{param1} and appoinmentstatus=0
+    </update>
+    <update id="updateOrderMeeting">
+        update meeting set meetingid=#{param1}
+        <if test="param2!=null">
+            ,meetingroomid=#{param2}
+        </if>
+        <if test="param4!=null">
+            ,name=#{param4}
+        </if>
+        <if test="param5!=null">
+            ,starttime=#{param5}
+        </if>
+        <if test="param6">
+            ,endtime=#{param6}
+        </if>
+        <if test="param7!=null and param>0">
+            ,peoplenum=#{param7}
+        </if>
+        <if test="param8!=null">
+            ,remark=#{param8}
+        </if>
+        where meetingid=#{param1} and employeeid=#{param3} and appoinmentstatus=0
+
+    </update>
+    <update id="completeMeetings">
+        update meeting set appoinmentstatus=2 where CURRENT_DATE>endtime and appoinmentstatus=1
+    </update>
+
+    <delete id="deleteMeeting">
+        delete from meeting where meetingid=#{meetingId}
+    </delete>
+    <delete id="cancleApproveMeeting">
+        delete from meeting where meetingid=#{meetingid} and appoinmentstatus=0 and employeeid=#{param2}
+    </delete>
+
+    <select id="getAllMeetings" resultType="com.example.modelservice.pojo.Meeting">
+        select meeting.* ,meetingroom.name as meetingRoomName from meeting,meetingroom where meeting.meetingroomid=meetingroom.meetingroomid
+        and appoinmentstatus!=-1
+    </select>
+    <select id="getMeetingById" resultType="com.example.modelservice.pojo.Meeting">
+        select * from meeting where meetingid=#{meetingId}
+    </select>
+    <select id="waitingApproveMeeting" resultType="com.example.modelservice.pojo.Meeting">
+         select meeting.* ,meetingroom.name as meetingRoomName from meeting,meetingroom where meeting.meetingroomid=meetingroom.meetingroomid
+        and appoinmentstatus=0 
+    </select>
+    <select id="judgeIsIsOccupy" resultType="com.example.modelservice.pojo.Meeting">
+        select * from meeting where meetingroomid=#{param1} and ((UNIX_TIMESTAMP(#{param2})>=UNIX_TIMESTAMP(starttime) and UNIX_TIMESTAMP(endtime)>=UNIX_TIMESTAMP(#{param2}))
+        or(UNIX_TIMESTAMP(#{param3})>=UNIX_TIMESTAMP(starttime) and UNIX_TIMESTAMP(endtime)>=UNIX_TIMESTAMP(#{param3}))
+        or(UNIX_TIMESTAMP(starttime)>=UNIX_TIMESTAMP(#{param2}) and UNIX_TIMESTAMP(#{param3})>=UNIX_TIMESTAMP(endtime))
+        or(UNIX_TIMESTAMP(#{param2})>=UNIX_TIMESTAMP(starttime) and UNIX_TIMESTAMP(endtime)>=UNIX_TIMESTAMP(#{param3})))
+    </select>
+    <select id="getCurrentAllMeeting" resultType="com.example.modelservice.pojo.Meeting">
+        select meeting.meetingid ,meetingroom.name as meetingRoomName from meeting,meetingroom where meeting.meetingroomid=meetingroom.meetingroomid
+        and appoinmentstatus=1 and CURRENT_DATE>startTime and endTime>CURRENT_DATE
+    </select>
+    <select id="getAllMeetingTimeByRoomAndTime" resultType="com.example.modelservice.pojo.Meeting">
+        select starttime,endtime from meeting where meetingroomid=#{param1} and (UNIX_TIMESTAMP(starttime)>=UNIX_TIMESTAMP(#{param2}))
+        and (UNIX_TIMESTAMP(#{param3})>=UNIX_TIMESTAMP(endtime))
+    </select>
+    <select id="getMeetingTrend" resultType="java.util.Map">
+        SELECT test as time,IF(sun is NULL,0,sun) as sum, If(departmentName is null,#{departmentName},departmentName) as departmentName from (SELECT
+        date_add(DATE_ADD(curdate() , INTERVAL - DAY(curdate()) + 2 DAY),
+        INTERVAL (cast( help_topic_id AS signed INTEGER ) - 1 ) DAY
+        ) as test
+        FROM
+        mysql.help_topic
+        WHERE
+        DAY ( last_day( curdate( ) )-16 )> help_topic_id
+        ORDER BY
+        help_topic_id)  as a LEFT  JOIN
+        (SELECT COUNT(*) as sun,DATE_FORMAT(meeting.createTime,'%Y-%m-%d') as Time,departmentName
+        FROM meeting,employee
+        where  date(meeting.createTime)>= DATE_SUB(CURDATE(), INTERVAL 15 DAY)
+        and meeting.appoinmentStatus>0 and employee.employeeId=meeting.employeeId and employee.departmentName=#{departmentName}
+        GROUP BY departmentName,time) as b on a.test=b.Time
+    </select>
+    <select id="getMeetingTrendnums" resultType="java.lang.Integer">
+        SELECT count(sun) from (SELECT
+        date_add(DATE_ADD(curdate() , INTERVAL - DAY(curdate()) + 2 DAY),
+        INTERVAL (cast( help_topic_id AS signed INTEGER ) - 1 ) DAY
+        ) as test
+        FROM
+        mysql.help_topic
+        WHERE
+        DAY ( last_day( curdate( ) )-16 )> help_topic_id
+        ORDER BY
+        help_topic_id)  as a LEFT  JOIN
+        (SELECT COUNT(*) as sun,DATE_FORMAT(meeting.createTime,'%Y-%m-%d') as Time,departmentName
+        FROM meeting,employee
+        where  date(meeting.createTime)>= DATE_SUB(CURDATE(), INTERVAL 15 DAY)
+        and meeting.appoinmentStatus>0 and employee.employeeId=meeting.employeeId and employee.departmentName=#{departmentName}
+        GROUP BY departmentName,time) as b on a.test=b.Time
+    </select>
+</mapper>

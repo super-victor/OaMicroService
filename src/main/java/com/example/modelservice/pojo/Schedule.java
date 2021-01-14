@@ -27,7 +27,6 @@ public class Schedule {
     @JsonIgnore
     @NotNull(message = "日程id不能为空",groups = {Update.class})
     private Integer scheduleId;
-    @JsonIgnore
     private Integer isCompany;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "开始时间不能为空",groups = {Company.class, Self.class})

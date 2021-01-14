@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.LogMapper">
+
+    <select id="getAllLogs" resultType="com.example.modelservice.pojo.Log">
+        select * from log
+    </select>
+    <select id="getAllOperateLogs" resultType="com.example.modelservice.pojo.Log">
+        select * from log where trim(level)='INFO'
+        <if test="operation!=null">
+            and trim(type)=trim(#{operation})
+        </if>
+    </select>
+    <select id="getAllSysLogs" resultType="com.example.modelservice.pojo.Log">
+        select * from log where trim(level)!='INFO'
+    </select>
+    <select id="getAllLevels" resultType="java.lang.String">
+        SELECT DISTINCT(level) FROM `log`;
+    </select>
+    <select id="getLogTypeByLevel" resultType="java.lang.String">
+        select type from log where trim(level)=#{level}
+    </select>
+</mapper>

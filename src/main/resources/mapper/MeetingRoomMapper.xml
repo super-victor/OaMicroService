@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.MeetingRoomMapper">
+    <resultMap id="meet" type="com.example.modelservice.pojo.MeetingRoom">
+        <id property="meetingRoomId" column="meetingRoomId"/>
+        <result property="place" column="place"/>
+        <result property="name" column="name"/>
+        <result property="isOccapy" column="isOccapy"/>
+        <result property="maxperson" column="maxperson"/>
+        <association property="meeting" javaType="com.example.modelservice.pojo.Meeting">
+            <result property="name" column="meetingName"/>
+            <result property="startTime" column="startTime"/>
+            <result property="endTime" column="endTime"/>
+        </association>
+    </resultMap>
+    <insert id="addMeetingRoom">
+        insert into meetingroom(name,place,isOccapy,maxperson) values (#{param1},#{param2},#{param3},#{param4})
+    </insert>
+    <update id="updateMeetingRoomIsOccapy">
+        update meetingroom set isOccapy=1 where meetingroomId in(select meetingroomId
+        from meeting where CURRENT_DATE>startTime and endTime>CURRENT_DATE)
+    </update>
+    <update id="updateMettingRoomNotIsOccapy">
+        update meetingroom set isOccapy=0 where meetingroomId in(select meetingroomId
+        from meeting where startTime>CURRENT_DATE or CURRENT_DATE>endTime)
+    </update>
+    <update id="updateMeetingRoom">
+        update meetingroom set MeetingRoomId=#{MeetingRoomId}
+        <where>
+            <if test="param2!=null">
+                ,place=#{param2}
+            </if>
+            <if test="param3!=null">
+                ,isOccapy=#{param3}
+            </if>
+            <if test="param4!=null">
+                ,name=#{MeetingRoomName}
+            </if>
+            <if test="param5>0"/>
+        </where>
+        where MeetingRoomId=#{MeetingRoomId}
+    </update>
+    <delete id="deleteMeetingRoom">
+        delete from meetingroom where meetingroomid=#{MeetingRoomId}
+    </delete>
+
+
+    <select id="getAllMeetingRoom" resultMap="meet">
+        select meetingroom.meetingroomid,meetingroom.place,meetingroom.name,meetingroom.isOccapy,meetingroom.maxperson,meeting.name as meetingName,meeting.startTime,meeting.endTime
+        from meetingroom LEFT JOIN meeting on meetingroom.meetingRoomId=meeting.meetingRoomId and meeting.appoinmentStatus=1 and NOW()>meeting.startTime AND meeting.endTime>NOW()
+        <where>
+            <if test="place !=null">
+                and meetingroom.place like #{place}
+            </if>
+            <if test="isOccapy !=null">
+                and meetingroom.isOccapy=#{isOccapy}
+            </if>
+            <if test="MeetingRoomName !=null">
+                and meetingroom.name like CONCAT('%',CONCAT(#{MeetingRoomName},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="getMeetingRoomNum" resultType="java.lang.Integer">
+        select count(*) from meetingroom
+    </select>
+    <select id="getMeetingRoomById" resultType="com.example.modelservice.pojo.MeetingRoom">
+        select * from meetingroom where meetingroomid=#{MeetingRoomId}
+    </select>
+    <select id="getMeetingRoomByNameAndPlace" resultType="com.example.modelservice.pojo.MeetingRoom">
+        select * from meetingroom
+        <where>
+            <if test="param1!=null">
+                name=#{param1}
+            </if>
+            <if test="param2!=null">
+                or place=#{param2}
+            </if>
+        </where>
+
+    </select>
+    <select id="getAllStorey" resultType="java.lang.String">
+        select distinct (place) from meetingroom
+    </select>
+    <select id="getMeetinRoomByStorey" resultType="com.example.modelservice.pojo.MeetingRoom">
+        select * from meetingroom where place=#{place}
+    </select>
+</mapper>

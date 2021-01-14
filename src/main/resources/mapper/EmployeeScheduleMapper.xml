@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.EmployeeScheduleMapper">
+
+    <insert id="insertEmployeeSchedule" useGeneratedKeys="true" keyProperty="employeeScheduleId">
+        insert into EmployeeSchedule(scheduleId, employeeId) values(#{scheduleId}, #{employeeId})
+    </insert>
+
+    <delete id="deleteEmployeeScheduleByScheduleId">
+        delete from EmployeeSchedule where scheduleId = #{scheduleId}
+    </delete>
+
+    <select id="findEmployeeScheduleByScheduleId" resultType="java.lang.Integer">
+        select employeeId from EmployeeSchedule where scheduleId = #{scheduleId}
+    </select>
+
+    <select id="findEmployeeScheduleByEmployeeId" resultType="java.lang.Integer">
+        select scheduleId from EmployeeSchedule where employeeId = #{employeeId}
+    </select>
+
+    <select id="findEmployeeScheduleByEmployeeIdAndScheduleId"
+            resultType="com.example.modelservice.pojo.EmployeeSchedule">
+        select * from EmployeeSchedule where employeeId = #{employeeId} and scheduleId = #{scheduleId}
+    </select>
+
+    <select id="findCompanyScheduleByDate" resultType="java.lang.Integer">
+        select scheduleId from employeeschedule where employeeId = #{employeeId} and scheduleId in (
+        select scheduleId from schedule where isCompany = 1 and
+        ((endTime >= #{start} and #{end} >= endTime) or
+        (startTime >= #{start} and #{end} >= endTime)));
+    </select>
+
+    <select id="findSelfScheduleByDate" resultType="java.lang.Integer">
+        select scheduleId from employeeschedule where employeeId = #{employeeId} and scheduleId in (
+        select scheduleId from schedule where isCompany = 0 and
+        ((endTime >= #{start} and #{end} >= endTime) or
+        (startTime >= #{start} and #{end} >= endTime)));
+    </select>
+
+    <select id="findScheduleByEmployeeIdAndIsCompany" resultType="java.lang.Integer">
+        select scheduleId from employeeschedule where employeeId = #{employeeId} and scheduleId in (
+        select scheduleId from schedule where isCompany = #{isCompany})
+    </select>
+
+    <select id="findEmployeeCompanyScheduleCount" resultType="java.lang.Integer">
+        select count(*) from employeeschedule
+        where employeeId = #{employeeId} and scheduleId in
+        (select scheduleId from schedule where isCompany = 1 and startTime> #{nowTime})
+    </select>
+
+    <select id="findEmployeeSelfScheduleCount" resultType="java.lang.Integer">
+        select count(*) from employeeschedule
+        where employeeId = #{employeeId} and scheduleId in
+        (select scheduleId from schedule where isCompany = 0 and startTime> #{nowTime})
+    </select>
+
+    <select id="findEmployeeCompanySchedule" resultType="com.example.modelservice.pojo.Schedule">
+        select * from schedule where scheduleId in (
+            select employeeschedule.scheduleId from employeeschedule
+            where employeeId = #{employeeId} and scheduleId in
+            (select scheduleId from schedule where isCompany = 1 and startTime> #{nowTime} order by startTime)) limit 1
+    </select>
+
+    <select id="findEmployeeSelfSchedule" resultType="com.example.modelservice.pojo.Schedule">
+        select * from schedule where scheduleId in (
+            select employeeschedule.scheduleId from employeeschedule
+            where employeeId = #{employeeId} and scheduleId in
+                                                 (select scheduleId from schedule where isCompany = 0 and startTime> #{nowTime} order by startTime)) limit 1
+    </select>
+
+</mapper>
