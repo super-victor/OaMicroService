@@ -24,7 +24,6 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class Schedule {
-    @JsonIgnore
     @NotNull(message = "日程id不能为空",groups = {Update.class})
     private Integer scheduleId;
     private Integer isCompany;
