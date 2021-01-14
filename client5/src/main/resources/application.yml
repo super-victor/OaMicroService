@@ -1,0 +1,20 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: client5 # 服务器的名字
+
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka
+
+
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
