@@ -122,10 +122,10 @@ public class MeetingRoomController {
      */
     @PutMapping("/updateMeetingRoom")
     Integer updateMeetingRoom(@RequestParam Integer MeetingRoomId,
-                              @RequestParam String place,
-                              @RequestParam Integer isOccapy,
-                              @RequestParam String MeetingRoomName,
-                              @RequestParam int maxpserson){
+                              @RequestParam(required = false) String place,
+                              @RequestParam(required = false) Integer isOccapy,
+                              @RequestParam(required = false) String MeetingRoomName,
+                              @RequestParam(required = false) int maxpserson){
         return meetingRoomMapper.updateMeetingRoom(MeetingRoomId,place,isOccapy,MeetingRoomName,maxpserson);
     }
 
