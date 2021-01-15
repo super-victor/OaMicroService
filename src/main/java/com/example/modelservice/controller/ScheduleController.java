@@ -43,7 +43,7 @@ public class ScheduleController {
         return scheduleMapper.deleteScheduleByScheduleId(scheduleId);
     }
 
-    @GetMapping("/findCompanyScheduleByDate")
+    @GetMapping("/findCompanyScheduleByStartTimeAndEndTime")
     public int findCompanyScheduleByDate(@RequestParam Date startTime, @RequestParam Date endTime){
         return scheduleMapper.findCompanyScheduleByDate(startTime, endTime);
     }
