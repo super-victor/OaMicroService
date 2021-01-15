@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -58,10 +59,13 @@ public class Employee {
     private String homeAddress;
     private int isAccountLocked;
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date passwordChangeDate;
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     private List<Role> authorities;
     private Department department;

@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,8 +41,10 @@ public class Card {
     private String company;
     private String department;
     private String position;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     private Date updateTime;
     public Card(){}

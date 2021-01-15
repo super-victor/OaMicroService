@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -26,7 +27,9 @@ public class MeetingRoom {
     @NotNull(message = "会议室最大人数不能为空")
     @Min(value = 1,message = "会议室最大人数为1")
     private Integer maxperson;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private Meeting meeting;

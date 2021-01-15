@@ -1,6 +1,7 @@
 package com.example.modelservice.pojo;
 
 import com.example.modelservice.pojo.limit.EmployeeLimitA;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -28,7 +29,9 @@ public class SendFile {
     private Integer censorId; //审查人ID
     private Integer status; //状态
     private String cersorOpinion; //审稿人意见
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime; //创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;  //修改时间
     private List<String> annuxUrlList; //附件url列表
     private List<EmployeeLimitA> accessEmployeeIdList;

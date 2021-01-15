@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,8 +43,10 @@ public class Schedule {
     private String remark;
     private Integer type;
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     @JsonIgnore
     private static final Map<Integer,String> typeList = new HashMap<>(){

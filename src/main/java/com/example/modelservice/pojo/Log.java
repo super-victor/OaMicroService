@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -20,7 +21,9 @@ public class Log {
     private String level;
     private String type;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     private Date updateTime;
 }

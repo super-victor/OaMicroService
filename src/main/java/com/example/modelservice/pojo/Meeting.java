@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -23,10 +24,14 @@ public class Meeting {
     private String name;    //会议名称
     private Integer appoinmentStatus;   //会议预约状态
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;  //创建时间
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;  //修改时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;   //会议开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime; //会议结束时间
     private Integer peopleNum; //会议人数
 

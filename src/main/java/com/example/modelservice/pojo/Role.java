@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -24,8 +25,10 @@ public class Role {
     private int isAble;
     // 拥有此角色的用户列表
     private List<Employee> employeeList;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     private Date updateTime;
 

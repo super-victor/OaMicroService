@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -21,8 +22,10 @@ public class Menu {
      private String url;
      @JsonIgnore
      private String code;
+     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      @JsonIgnore
      private Date createTime;
+     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      @JsonIgnore
      private Date updateTime;
 }

@@ -1,5 +1,6 @@
 package com.example.modelservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -30,7 +31,9 @@ public class Equipment {
     @NotNull(message = "设备数量不能为空",groups = {Add.class})
     @Min(value = 0,message = "设备数量最小为0",groups = {Add.class,update.class})
     private Integer num;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private String meetingRoomName;
