@@ -22,34 +22,12 @@ import java.util.List;
 public class AddrListController {
 
     @Resource
-    EmployeeMapper employeeMapper;
-
-    @Resource
     DepartmentMapper departmentMapper;
 
-    @GetMapping("/getAllEmployee")
-    List<Employee> getAllEmployee(){
-        return employeeMapper.getAllEmployee();
-    }
 
     @GetMapping("/getAllDepartmentName")
     List<String> getAllDepartmentName(){
         return departmentMapper.getAllDepartmentName();
-    }
-
-    @GetMapping("/getemployeenumbers")
-    int getemployeenumbers(){
-        return employeeMapper.getemployeenumbers();
-    }
-
-    @GetMapping("/getEmployeeBypage")
-    List<Employee>getEmployeeBypage(@RequestParam Integer currentPageNum, @RequestParam Integer pageSize){
-        return employeeMapper.getEmployeeBypage(currentPageNum,pageSize);
-    }
-
-    @GetMapping("/getEmployeeByCondition")
-    List<Employee>getEmployeeByCondition(@RequestParam String name, @RequestParam String sex){
-        return employeeMapper.getEmployeeByCondition(name,sex);
     }
 }
 

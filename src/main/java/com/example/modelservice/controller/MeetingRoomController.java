@@ -16,7 +16,7 @@ import java.util.List;
  * @Version v1.0
  */
 @RestController
-public class meetingRoomController {
+public class MeetingRoomController {
 
     @Resource
     MeetingRoomMapper meetingRoomMapper;

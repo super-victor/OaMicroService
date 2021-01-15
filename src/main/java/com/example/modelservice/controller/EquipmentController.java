@@ -17,7 +17,7 @@ import java.util.List;
  * @Version v1.0
  */
 @RestController
-public class equipmentController {
+public class EquipmentController {
 
     @Resource
     EquipmentMapper equipmentMapper;

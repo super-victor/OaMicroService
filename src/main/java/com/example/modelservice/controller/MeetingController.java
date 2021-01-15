@@ -17,7 +17,7 @@ import java.util.Map;
  * @Version v1.0
  */
 @RestController
-public class meetingController {
+public class MeetingController {
 
     @Resource
     MeetingMapper meetingMapper;
