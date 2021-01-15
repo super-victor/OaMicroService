@@ -1,9 +1,13 @@
 package com.example.scheduleservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -20,56 +24,76 @@ import java.util.List;
  * @LastChangeDate 2020/11/4 22:54
  * @Version v1.0
  */
+@ApiModel(value = "employee",description = "职工信息")
 @Data
 @Valid
-public class Employee {
+public class Employee implements UserDetails {
     private Integer employeeId;
-    @Size(max = 20,min = 5,groups = Add.class)
-    @NotNull(groups = Add.class)
     private String username;
-    @NotNull(groups = Add.class)
     private String name;
     private Date birthday;
-    @JsonIgnore
-    @NotNull(groups = Add.class)
-    @Size(max = 20,min = 5)
+
     private String password;
-    @Pattern(regexp = "^[0-9]*$")
-    @NotNull(groups = Add.class)
+
     private String phone;
-    @Email
-    @NotNull(groups = Add.class)
+
     private String email;
-    @Pattern(regexp = "^[0-9]*$")
-    @NotNull(groups = Add.class)
+
     private String idCard;
-    @Pattern(regexp = "m|f")
-    @NotNull(groups = Add.class)
     private String sex;
     private Date entryTime;
-    @Size(max = 10,min = 1)
-    @NotNull(groups = Add.class)
     private String departmentName;
-    @Size(max = 10,min = 1)
-    @NotNull(groups = Add.class)
     private String position;
-    @Size(max = 20,min = 1)
-    @NotNull(groups = Add.class)
     private String homeAddress;
     private int isAccountLocked;
-    @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date passwordChangeDate;
-    @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     private List<Role> authorities;
     private Department department;
+
 
     public interface Add{
     }
 
     public interface Update{
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        if (isAccountLocked == 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 

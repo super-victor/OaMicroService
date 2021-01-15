@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
- *
  * @Auther: pan
  * @Date: 2020/11/05/20:34
  * @Description:消息实体类

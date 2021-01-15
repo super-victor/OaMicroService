@@ -1,10 +1,14 @@
 package com.example.scheduleservice.request;
 
 import com.example.scheduleservice.pojo.Employee;
+import com.example.scheduleservice.pojo.Role;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * @InterfaceName RequestEmployeeData
@@ -23,4 +27,19 @@ public interface RequestEmployeeData {
 
     @GetMapping("/findRoleByEmployeeIdAndRoleId")
     Integer findRoleByEmployeeIdAndRoleId(@RequestParam Integer employeeId, @RequestParam Integer roleId);
+
+    @GetMapping("/findEmployeeByUsername")
+    Employee findEmployeeByUsername(@RequestParam String username);
+
+    @GetMapping("/findAvailableRolesByEmployeeId")
+    List<Role> findAvailableRolesByEmployeeId(@RequestParam int employeeId);
+
+    @GetMapping("/findCodesByEmployeeId")
+    List<String> findCodesByEmployeeId(@RequestParam Integer employeeId);
+
+    @GetMapping("/findMenuIsExist")
+    int findMenuIsExist(@RequestParam String url);
+
+    @GetMapping("/findRoleIdsByUrlPattern")
+    List<String> findRoleIdsByUrlPattern(@RequestParam String urlPattern);
 }

@@ -24,3 +24,20 @@ feign:
     config:
       default:
         loggerLevel: full
+
+global-security-config:
+  allow-url-list:
+    - "/login"
+    - "2/**"
+    - "/swagger-resources/**"
+    - "/swagger-resources"
+    - "/swagger-ui**"
+    - "/webjars/**"
+    - "/download/**"
+    - "/message/**"
+
+jwt:
+  # 密钥
+  secret: tangliyi123fddsafasgkahgjdhgkjfhago9gjoasjglkkdsanglkjnfadlkgjnlfkangl;afdngafdng;
+  # 过期时间 604800
+  expiration: 604800
