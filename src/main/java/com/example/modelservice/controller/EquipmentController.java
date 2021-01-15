@@ -33,6 +33,10 @@ public class EquipmentController {
         return equipmentMapper.addEquipment(equipmentclassifyId,meetingroomId,name,ismaintain,remark,num);
     }
 
+    @GetMapping("/getEquipmentById")
+    Equipment getEquipmentById(Integer equipmentId){
+        return equipmentMapper.getEquipmentById(equipmentId);
+    }
 
     @PutMapping("/updateEquipment")
     Integer updateEquipment(@RequestParam Integer equipmentId,
