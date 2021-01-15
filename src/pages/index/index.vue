@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<no-permission v-if="!permission"></no-permission>
-		<view v-else class="homeBox">
+		<view class="homeBox">
 			<view class="topBox">
 				<view class="titleBox">
 					<view class="titleImg"></view>
@@ -48,7 +47,6 @@ import Swiper from '../../components/index/swiper.vue'
 		data() {
 			return {
 				title : '首页',
-				permission: true,
 				menuList:[[
 					{
 						name:'名片夹',
@@ -85,7 +83,7 @@ import Swiper from '../../components/index/swiper.vue'
 			}
 		},
 		onLoad() {
-
+			
 		},
 		methods: {
 			goto(route){

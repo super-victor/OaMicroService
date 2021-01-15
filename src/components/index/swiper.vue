@@ -5,7 +5,31 @@
             v-for="(item,index) in swiper_list"
             :key="index"
             >
-                <image class="swiper-item" :src="item.url" @tap="goRouter(item.router)"></image>
+                <!-- <image class="swiper-item" :src="item.url" @tap="goRouter(item.router)"></image> -->
+								<view class="swiper-item">
+									<view class="noDataBox" v-if="item==null">
+										<img src="../../static/noSchedule.png" alt="" class="img">
+										<view class="text">{{`暂无即将开始的${index==0?'个人':'公司'}日程`}}</view>
+									</view>
+									<view class="scheduleBox" v-else>
+										<view class="titleBox">
+											<view class="smallTitle"><text style="background-color:#9CB7F0;padding:3px;">{{`${index==0?'个人':'公司'}日程`}}</text></view>
+											<view class="titleText">
+												<text style="font-size:35rpx;height:60rpx;line-height:60rpx;color:#303133;">{{item.content}}</text>
+											</view>
+										</view>
+										<view style="height:3%;width:100%;border-bottom: 1px solid #C0C4CC;margin-bottom:10rpx;"></view>
+										<view style="display:flex;">
+											<image src="../../static/icon/s1.png" class="icon"></image><view class="location"> {{item.location}}</view>
+										</view>
+										<view style="display:flex;">
+											<image src="../../static/icon/s2.png" class="icon"></image><view class="remark"> {{item.remark}}</view>
+										</view>
+										<view style="display:flex;">
+											<image src="../../static/icon/s3.png" class="icon"></image><view class="timeBox"> {{item.startTime}} - {{item.endTime}}</view>
+										</view>
+									</view>
+								</view>
             </swiper-item>
         </swiper>
     </view>
@@ -16,15 +40,21 @@
 		data() {
 			return {
 				swiper_list:[
-                    {
-                        url:'https://mmbiz.qpic.cn/mmbiz_jpg/gsQM61GSzIP728VzIZ4dP5TcFI3AIWAh95dc714n8FibhN3os4sWQSBjrciaJ5BN6VOT9drNvQBicfpgoXHOFZwzA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1',
-                        router:''
-                    },
-                    {
-                        url:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1211%2F21%2Fc1%2F15954767_1353492149857.jpg&refer=http%3A%2F%2Fimg.pconline.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613136316&t=f5e920696f21ff6a46110e03e1156c61',
-                        router:''
-                    }
-                ]
+					{
+						content:'12223',
+						location:'222',
+						remark:'3333',
+						startTime:'2019-32012',
+						endTime:'12320013'
+					},
+					{
+						content:'12223',
+						location:'222',
+						remark:'3333',
+						startTime:'2019-32012',
+						endTime:'12320013'
+					}
+				]
 			}
 		},
 		mounted() {
@@ -56,7 +86,93 @@
 	.swiper-item{
 		height: 100%;
 		width: 100%;
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
+		background-color: #f1f3f5;
+	}
+	.noDataBox{
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.img{
+			height: 130rpx;
+			width: 130rpx;
+			margin-top: 20rpx;
+		}
+		.text{
+			height: 50rpx;
+			width: 100%;
+			color: #d8d8d8;
+			font-size: 30rpx;
+			line-height:50rpx;
+			text-align: center;
+		}
+	}
+	.scheduleBox{
+		height: 100%;
+		width: 100%;
+		padding: 5rpx 15rpx;
+		box-sizing: border-box;
+		border-radius: 4rpx;
+		.titleBox{
+			height: 70rpx;
+			width: 100%;
+			display: flex;
+			.smallTitle{
+				height: 100%;
+				width: 25%;
+				font-size: 30rpx;
+				padding-left: 10rpx;
+				box-sizing: border-box;
+				color: #4A76D4;
+				line-height: 70rpx;
+				user-select: none;
+				font-family:'jdzhonyuanjian2510280c4f22004';
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
+			.titleText{
+				height: 100%;
+				width: 75%;
+				display: flex;
+				align-items: center;
+			}
+		}
+		.icon{
+			height: 35rpx;
+			width: 35rpx;
+			margin-left: 15rpx;
+		}
+		.location{
+			height: 45rpx;
+			width: 100%;
+			font-size: 25rpx;
+			padding-left: 10rpx;
+			box-sizing: border-box;
+			line-height: 45rpx;
+			color: #606266;
+		}
+		.remark{
+			height: 45rpx;
+			width: 100%;
+			font-size: 25rpx;
+			padding-left: 10rpx;
+			box-sizing: border-box;
+			line-height: 45rpx;
+			color: #606266;
+		}
+		.timeBox{
+			height: 45rpx;
+			width: 100%;
+			font-size: 25rpx;
+			padding-left: 10rpx;
+			box-sizing: border-box;
+			line-height: 45rpx;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			color: #606266;
+		}
 	}
 </style>

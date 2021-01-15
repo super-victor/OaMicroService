@@ -1,49 +1,256 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view>
-			<text class="title">{{title}}</text>
+		<view class="topBox">
+			<view class="userBox">
+				<img :src="url==''?'../../static/login.png':url" class="img" @tap="openBox()" />
+				<view class="name">{{name}}</view>
+			</view>
 		</view>
+		<view class="helpBox">
+			<view class="contentBox">
+				<view class="contents" @tap="clickList('/pages/personal/myBenefit',1)">
+					<image class="icon" src="../../static/icon/wait-meeting.png"></image>
+					<view class="text">待审会议</view>
+				</view>
+			</view>
+			<view class="contentBox">
+				<view class="contents" @tap="clickList('/pages/personal/myActive',1)">
+					<image class="icon" src="../../static/icon/wait-document.png"></image>
+					<view class="text">待审公文</view>
+				</view>
+			</view>
+		</view>
+		<view class="listBox">
+			<uni-list>
+				<uni-list-item :clickable="true" title="个人信息" @click="clickList('/pages/personal/personalInfo',1)"></uni-list-item>
+				<uni-list-item :clickable="true" title="身份绑定" @click="clickList('/pages/personal/children/identityBinding',0)"></uni-list-item>
+			</uni-list>
+		</view>
+		<get-user-info-button :open='change' @close='closeBox' @refresh='updatePage' ></get-user-info-button>
 	</view>
 </template>
 
 <script>
+	import uniList from "@dcloudio/uni-ui/lib/uni-list/uni-list.vue"
+	import uniListItem from "@dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue"
+	import getUserInfoButton from '../../components/common/getUserInfoButton'
 	export default {
+		components:{
+			uniList,
+			uniListItem,
+			getUserInfoButton
+		},
 		data() {
 			return {
-				title: '我的'
+				url:"",
+				name:"未登录",
+				canlogin:true,
+				change:false,
 			}
 		},
 		onLoad() {
-
+		},
+		onShow() {
+			// this.change = false;
+			// wx.showNavigationBarLoading();
+			// if(this.url!=''){
+			// 	this.getCoin()
+			// 	.then(res=>{
+			// 		this.coin = res.coin;
+			// 		wx.hideNavigationBarLoading();
+			// 	})
+			// }else{
+			// 	this.$myGetUserInfo()
+			// 	.then(res=>{
+			// 		//赋值操作
+			// 		if(res.error!==2){
+			// 			let {nickname,url} = res;
+			// 			this.getCoin()
+			// 			.then(res2=>{
+			// 				this.coin = res2.coin;
+			// 				this.name = nickname;
+			// 				this.url = url;
+			// 				this.canlogin = false;
+			// 				wx.hideNavigationBarLoading();
+			// 				if(res.error===0){
+			// 					uni.showModal({
+			// 						title:'提示',
+			// 						content:'为了更好地为您提供服务，平台仅会获取您的头像、昵称等非敏感信息，如您允许我们使用信息，请前往修改页面打开权限许可',
+			// 						cancelText:'暂不修改',
+			// 						confirmText:'前往修改',
+			// 						success: (res) => {
+			// 							if (res.confirm) {
+			// 							wx.openSetting({
+			// 								success: (res) => {
+			// 									if(res.authSetting["scope.userInfo"]){
+			// 										wx.getUserInfo({
+			// 											lang:'zh_CN',
+			// 											withCredentials:false,
+			// 											success:(res)=>{
+			// 												this.$myRequest({
+			// 													url:'/user/setBasicInfo',
+			// 													method:'POST',
+			// 													check:true,
+			// 													user:true,
+			// 													data:{
+			// 														nickname:res.userInfo.nickName,
+			// 														url:res.userInfo.avatarUrl,
+			// 													}
+			// 												})
+			// 											}
+			// 										})
+			// 									}
+			// 								}
+			// 							})
+			// 							}
+			// 						}
+			// 					})
+			// 				}
+			// 			})
+			// 		}else{
+			// 			this.canlogin=true;
+			// 			wx.hideNavigationBarLoading();
+			// 		}
+			// 	})
+			// }
 		},
 		methods: {
-
+            async getCoin(){//获取硬币
+                const res = await this.$myRequest({
+                    url:'/user/getCoin',
+					method:'POST',
+					user:true,
+                })
+                return res.data;
+            },
+			closeBox(msg){
+				this.change=msg;
+			},
+			openBox(){
+				if(this.canlogin===''){
+						return;
+				}
+				if(this.canlogin){
+					this.change=true;
+				}
+			},
+			updatePage(msg){
+				wx.showNavigationBarLoading();
+				this.getCoin()
+				.then(res=>{
+					let {nickname,url} = msg;
+					this.name = nickname;
+					this.url = url;
+					this.coin = res.coin;
+					this.canlogin = false;
+					wx.hideNavigationBarLoading();
+				})
+			},
+			clickList(pageUrl,islogin){
+				if(islogin!==0){
+					if(this.canlogin===''){
+						return;
+					}
+					if(this.canlogin){
+						this.change=true;
+						return;
+					}else{
+						wx.navigateTo({
+							url: pageUrl
+						})
+					}
+				}else{
+					wx.navigateTo({
+						url: pageUrl
+					})
+				}
+			}
 		}
 	}
 </script>
 
 <style scoped lang='scss'>
 	.content {
+		height: 100vh;
+		background-color: #F1F5F6;
+	}
+	.topBox{
+		height: 300rpx;
+		width: 100%;
+		background-color: #5383EC;
+		.userBox{
+			height: 200rpx;
+			width: 30%;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.img{
+				margin-top: 30rpx;
+				height: 90rpx;
+				width: 90rpx;
+                flex-shrink: 0;
+                border-radius: 50%;
+                overflow: hidden;
+			}
+			.name{
+				margin-top: 20rpx;
+				height: 40rpx;
+				width: 140rpx;
+				font-size: 27rpx;
+				color: #303133;
+				text-align: center;
+				line-height: 40rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+	.helpBox{
+		height: 140rpx;
+		width: 90%;
+		background-color: white;
+		margin: -70rpx auto 0;
+		border-radius: 10rpx;
+		box-shadow: 0 5rpx 8rpx rgba(236, 236, 236, 0.5);
 		display: flex;
-		flex-direction: column;
+		justify-content: space-around;
 		align-items: center;
-		justify-content: center;
+		.contentBox{
+			height: 65%;
+			width: 45%;
+			display: flex;
+			justify-content: center;
+			.contents{
+				height: 100%;
+				width: 40%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				.icon{
+					height: 57%;
+					width: 47%;
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+				}
+				.text{
+					height: 30%;
+					width: 100%;
+					color: #565865;
+					font-size: 29rpx;
+					line-height: 27.3rpx;
+					text-align: center;
+				}
+			}
+		}
 	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin: 200rpx auto 50rpx auto;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+	.listBox{
+		min-height: 450rpx;
+		width: 90%;
+		margin: 7vh auto 0;
+		border-radius: 10rpx;
+		overflow: hidden;
 	}
 </style>
