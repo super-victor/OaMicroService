@@ -16,9 +16,9 @@ import java.util.List;
  * @LastChangeDate 2021/1/14 16:20
  * @Version v1.0
  */
-@FeignClient("model-service")
+@FeignClient("MODEL-SERVICE")
 @Service
-public interface addrlistsdata {
+public interface AddrListsData {
     @GetMapping("/getAllEmployee")
     List<Employee>getAllEmployee();
 
@@ -30,8 +30,8 @@ public interface addrlistsdata {
     int getemployeenumbers();
 
     @GetMapping("/getEmployeeBypage")
-    List<Employee>getEmployeeBypage(@RequestParam Integer currentPageNum,@RequestParam Integer pageSize);
+    List<Employee>getEmployeeBypage(@RequestParam("currentPageNum") Integer currentPageNum,@RequestParam("pageSize") Integer pageSize);
 
     @GetMapping("/getEmployeeByCondition")
-    List<Employee>getEmployeeByCondition(@RequestParam String name, @RequestParam String sex);
+    List<Employee>getEmployeeByCondition(@RequestParam("name") String name, @RequestParam("sex") String sex);
 }

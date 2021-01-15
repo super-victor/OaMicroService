@@ -1,16 +1,20 @@
 server:
   port: 8085
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: client5 # 服务器的名字
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}
   client:
     service-url:
-      defaultZone: http://localhost:8080/eureka
-
+      defaultZone: http://192.168.43.245:8081/eureka
 
 
 feign:

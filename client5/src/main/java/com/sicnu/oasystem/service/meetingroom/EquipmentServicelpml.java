@@ -1,13 +1,16 @@
 package com.sicnu.oasystem.service.meetingroom;
 
 import com.sicnu.oasystem.json.BackFrontMessage;
-import com.sicnu.oasystem.mapper.EquipmentClassifyMapper;
-import com.sicnu.oasystem.mapper.EquipmentMapper;
-import com.sicnu.oasystem.mapper.MeetingRoomMapper;
+//import com.sicnu.oasystem.mapper.EquipmentClassifyMapper;
+//import com.sicnu.oasystem.mapper.EquipmentMapper;
+//import com.sicnu.oasystem.mapper.MeetingRoomMapper;
 import com.sicnu.oasystem.pojo.Equipment;
 import com.sicnu.oasystem.pojo.EquipmentClassify;
 import com.sicnu.oasystem.pojo.MeetingRoom;
-import com.sicnu.oasystem.util.LogUtil;
+import com.sicnu.oasystem.service.datarequest.EquipmentClassifyData;
+import com.sicnu.oasystem.service.datarequest.EquipmentData;
+import com.sicnu.oasystem.service.datarequest.MeetingRoomData;
+//import com.sicnu.oasystem.util.LogUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,38 +27,46 @@ import java.util.List;
 public class EquipmentServicelpml implements EquipmentService {
 
 
+//    @Resource
+//    EquipmentMapper equipmentMapper;
+//
+//    @Resource
+//    EquipmentClassifyMapper equipmentClassifyMapper;
+//
+//    @Resource
+//    MeetingRoomMapper meetingRoomMapper;
+
+//    @Resource
+//    LogUtil logUtil;
     @Resource
-    EquipmentMapper equipmentMapper;
+    EquipmentData equipmentData;
 
     @Resource
-    EquipmentClassifyMapper equipmentClassifyMapper;
+    EquipmentClassifyData equipmentClassifyData;
 
     @Resource
-    MeetingRoomMapper meetingRoomMapper;
-
-    @Resource
-    LogUtil logUtil;
+    MeetingRoomData meetingRoomData;
 
     @Override
     public BackFrontMessage addEquipment(Integer equipmentclassifyId, Integer meetingroomId, String name, Integer ismaintain, String remark, int num) {
         if(equipmentclassifyId==null || equipmentclassifyId<=0 ||meetingroomId==null ||meetingroomId<=0 || name==null){
             return new BackFrontMessage(500,"添加设备失败",null);
         }
-        EquipmentClassify equipmentClassify=equipmentClassifyMapper.getEquipmentClassifyById(equipmentclassifyId);
-        MeetingRoom meetingRoom=meetingRoomMapper.getMeetingRoomById(meetingroomId);
+        EquipmentClassify equipmentClassify=equipmentClassifyData.getEquipmentClassifyById(equipmentclassifyId);
+        MeetingRoom meetingRoom=meetingRoomData.getMeetingRoomById(meetingroomId);
         if(equipmentClassify !=null &&meetingRoom!=null){
-            Equipment equipment=equipmentMapper.getEquipmentByclassifyAndRoomAndname(equipmentclassifyId,meetingroomId,name);
+            Equipment equipment=equipmentData.getEquipmentByclassifyAndRoomAndname(equipmentclassifyId,meetingroomId,name);
             if(equipment!=null){
                 return new BackFrontMessage(500,"设备已存在",null);
             }
             int res=0;
-            res=equipmentMapper.addEquipment(equipmentclassifyId,meetingroomId,name,ismaintain,remark,num);
+            res=equipmentData.addEquipment(equipmentclassifyId,meetingroomId,name,ismaintain,remark,num);
             if(res==0){
                 return new BackFrontMessage(500,"添加设备失败",null);
             }else{
-                logUtil.insertInfo("添加设备"+"equipmentclassifyId:"+equipmentclassifyId+
-                        ",meetingroomId:"+meetingroomId+",name:"+name+",ismaintain:"+ismaintain+
-                        ",remark:"+remark+",num:"+num);
+//                logUtil.insertInfo("添加设备"+"equipmentclassifyId:"+equipmentclassifyId+
+//                        ",meetingroomId:"+meetingroomId+",name:"+name+",ismaintain:"+ismaintain+
+//                        ",remark:"+remark+",num:"+num);
                 return new BackFrontMessage(200,"添加设备成功",null);
             }
         }else{
@@ -72,9 +83,9 @@ public class EquipmentServicelpml implements EquipmentService {
     @Override
     public BackFrontMessage updateEquipment(Integer equipmentId, Integer equipmentclassifyId,
                                             Integer newmeetingroomId, String newname, Integer newismaintain, String remark, Integer newnum) {
-        Equipment equipment=equipmentMapper.getEquipmentById(equipmentId);
-        EquipmentClassify equipmentClassify=equipmentClassifyMapper.getEquipmentClassifyById(equipmentclassifyId);
-        MeetingRoom meetingRoom=meetingRoomMapper.getMeetingRoomById(newmeetingroomId);
+        Equipment equipment=equipmentData.getEquipmentById(equipmentId);
+        EquipmentClassify equipmentClassify=equipmentClassifyData.getEquipmentClassifyById(equipmentclassifyId);
+        MeetingRoom meetingRoom=meetingRoomData.getMeetingRoomById(newmeetingroomId);
         if (equipment==null){
             return new BackFrontMessage(500,"更新的设备不存在",null);
         }else if((equipmentClassify==null&&equipmentclassifyId!=null) ||(meetingRoom==null&&newmeetingroomId!=null)){
@@ -82,11 +93,11 @@ public class EquipmentServicelpml implements EquipmentService {
         }
         else {
             int res=0;
-            res=equipmentMapper.updateEquipment(equipmentId,equipmentclassifyId,newmeetingroomId,newname,newismaintain,remark,newnum);
+            res=equipmentData.updateEquipment(equipmentId,equipmentclassifyId,newmeetingroomId,newname,newismaintain,remark,newnum);
             if(res==0){
                 return new BackFrontMessage(500,"更新设备失败",null);
             }else {
-                logUtil.updateInfo("修改设备成功"+equipment);
+//                logUtil.updateInfo("修改设备成功"+equipment);
                 return new BackFrontMessage(200,"更新设备成功",null);
             }
         }
@@ -94,7 +105,7 @@ public class EquipmentServicelpml implements EquipmentService {
 
     @Override
     public BackFrontMessage getEquipmentById(Integer equipmentId) {
-        Equipment equipment=equipmentMapper.getEquipmentById(equipmentId);
+        Equipment equipment=equipmentData.getEquipmentById(equipmentId);
         if(equipment==null){
             return new BackFrontMessage(500,"设备不存在",null);
         }else {
@@ -104,7 +115,7 @@ public class EquipmentServicelpml implements EquipmentService {
 
     @Override
     public BackFrontMessage getEquipmentByCondition(Integer meetingroomid, Integer equipmentclassifyId, String name) {
-        List<Equipment> equipments=equipmentMapper.getEquipmentByCondition(meetingroomid,equipmentclassifyId,name);
+        List<Equipment> equipments=equipmentData.getEquipmentByCondition(meetingroomid,equipmentclassifyId,name);
         if (equipments==null){
             return new BackFrontMessage(500,"按条件查找设备失败",null);
         }else if(equipments.size()==0){
@@ -118,16 +129,16 @@ public class EquipmentServicelpml implements EquipmentService {
 
     @Override
     public BackFrontMessage deleteEuipment(Integer equipmentId) {
-        Equipment equipment=equipmentMapper.getEquipmentById(equipmentId);
+        Equipment equipment=equipmentData.getEquipmentById(equipmentId);
         if (equipment==null){
             return new BackFrontMessage(500,"删除设备不存在",null);
         }else {
             int res=0;
-            res=equipmentMapper.deleteEuipment(equipmentId);
+            res=equipmentData.deleteEuipment(equipmentId);
             if(res==0){
                 return new BackFrontMessage(500,"删除设备失败",null);
             }else{
-                logUtil.deleteInfo("删除设备"+equipment);
+//                logUtil.deleteInfo("删除设备"+equipment);
                 return new BackFrontMessage(200,"删除设备成功",null);
             }
         }
@@ -135,7 +146,7 @@ public class EquipmentServicelpml implements EquipmentService {
 
     @Override
     public BackFrontMessage getallEquipment() {
-        List<Equipment>equipmentList=equipmentMapper.getallEquipment();
+        List<Equipment>equipmentList=equipmentData.getallEquipment();
         if(equipmentList.size()==0||equipmentList==null){
             return new BackFrontMessage(500,"获取所有设备失败",null);
         }else {

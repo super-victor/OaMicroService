@@ -3,7 +3,7 @@ package com.sicnu.oasystem.service.addrlist;
 import com.sicnu.oasystem.json.BackFrontMessage;
 import com.sicnu.oasystem.json.BackFrontPage;
 import com.sicnu.oasystem.pojo.Employee;
-import com.sicnu.oasystem.service.datarequest.addrlistsdata;
+import com.sicnu.oasystem.service.datarequest.AddrListsData;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ public class AddrListServicelmpl implements AddrListService {
 //    DepartmentMapper departmentMapper;
 
     @Resource
-    addrlistsdata addrlistsdata;
+    AddrListsData addrlistsdata;
     /**
      * @MethodName getAllEmplyee
      * @param
