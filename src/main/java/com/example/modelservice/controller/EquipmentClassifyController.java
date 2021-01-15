@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @RestController
-public class EquipmentClassifyController {
+class EquipmentClassifyController {
     @Resource
     EquipmentClassifyMapper equipmentClassifyMapper;
 
@@ -33,7 +33,7 @@ public class EquipmentClassifyController {
     }
 
     @GetMapping("/getEquipmentClassifyById")
-    EquipmentClassify getEquipmentClassifyById(Integer classifyId){
+    EquipmentClassify getEquipmentClassifyById(@RequestParam Integer classifyId){
         return equipmentClassifyMapper.getEquipmentClassifyById(classifyId);
     }
 

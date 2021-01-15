@@ -17,7 +17,7 @@ import java.util.Map;
  * @Version v1.0
  */
 @RestController
-public class MeetingController {
+class MeetingController {
 
     @Resource
     MeetingMapper meetingMapper;
@@ -68,13 +68,13 @@ public class MeetingController {
 
     @PutMapping("/updateOrderMeeting")
     Integer updateOrderMeeting(@RequestParam Integer meetingid,
-                               @RequestParam Integer meetingroomid,
+                               @RequestParam(required = false) Integer meetingroomid,
                                @RequestParam Integer employeeid,
-                               @RequestParam String name,
-                               @RequestParam Date startTime,
-                               @RequestParam Date endtime,
-                               @RequestParam Integer peoplenum,
-                               @RequestParam String remark){
+                               @RequestParam(required = false) String name,
+                               @RequestParam(required = false) Date startTime,
+                               @RequestParam(required = false) Date endtime,
+                               @RequestParam(required = false) Integer peoplenum,
+                               @RequestParam(required = false) String remark){
        return meetingMapper.updateOrderMeeting(meetingid,meetingroomid,employeeid,name,startTime,endtime,peoplenum,remark);
     }
 

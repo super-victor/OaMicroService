@@ -40,12 +40,12 @@ public class EquipmentController {
 
     @PutMapping("/updateEquipment")
     Integer updateEquipment(@RequestParam Integer equipmentId,
-                            @RequestParam Integer equipmentclassifyId,
-                            @RequestParam Integer newmeetingroomId,
-                            @RequestParam String newname,
-                            @RequestParam Integer newismaintain,
-                            @RequestParam String remark,
-                            @RequestParam Integer newnum){
+                            @RequestParam(required = false) Integer equipmentclassifyId,
+                            @RequestParam(required = false) Integer newmeetingroomId,
+                            @RequestParam(required = false) String newname,
+                            @RequestParam(required = false) Integer newismaintain,
+                            @RequestParam(required = false) String remark,
+                            @RequestParam(required = false) Integer newnum){
         return equipmentMapper.updateEquipment(equipmentId,equipmentclassifyId,newmeetingroomId,newname,newismaintain,remark,newnum);
     }
 
@@ -67,9 +67,9 @@ public class EquipmentController {
     }
 
     @GetMapping("/getEquipmentByCondition")
-    List<Equipment> getEquipmentByCondition(@RequestParam Integer meetingroomid,
-                                            @RequestParam Integer equipmentclassifyId,
-                                            @RequestParam String name){
+    List<Equipment> getEquipmentByCondition(@RequestParam(required = false) Integer meetingroomid,
+                                            @RequestParam(required = false) Integer equipmentclassifyId,
+                                            @RequestParam(required = false) String name){
         return equipmentMapper.getEquipmentByCondition(meetingroomid,equipmentclassifyId,name);
     }
 }
