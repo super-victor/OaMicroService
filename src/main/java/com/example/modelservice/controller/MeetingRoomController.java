@@ -31,9 +31,9 @@ public class MeetingRoomController {
      * @LastChangeDate 2020/12/10
      */
     @GetMapping("/getAllMeetingRoom")
-    List<MeetingRoom> getAllMeetingRoom(@RequestParam String place,
-                                        @RequestParam Integer isOccapy,
-                                        @RequestParam String MeetingRoomName){
+    List<MeetingRoom> getAllMeetingRoom(@RequestParam(required = false) String place,
+                                        @RequestParam(required = false) Integer isOccapy,
+                                        @RequestParam(required = false) String MeetingRoomName){
         return meetingRoomMapper.getAllMeetingRoom(place,isOccapy,MeetingRoomName);
     }
 
