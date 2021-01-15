@@ -17,7 +17,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class EmployeeSchedule {
-    @JsonIgnore
     private Integer employeeScheduleId;
     private Integer scheduleId;
     private Integer employeeId;
