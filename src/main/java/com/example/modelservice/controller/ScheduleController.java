@@ -18,7 +18,7 @@ import java.util.Date;
 
 @RestController
 @Slf4j
-public class scheduleController {
+public class ScheduleController {
 
     @Resource
     private ScheduleMapper scheduleMapper;
