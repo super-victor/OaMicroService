@@ -29,6 +29,24 @@
 			"style": {
 				"navigationBarTitleText": "身份绑定"
 			}
+		},
+		{
+			"path": "pages/AddrList/AddrList",
+			"style": {
+				"navigationBarTitleText": "通讯录查询"
+			}
+		},
+		{
+			"path": "pages/MeetingroomManage/MeetingroomManage",
+			"style": {
+				"navigationBarTitleText": "会议室管理"
+			}
+		},
+		{
+			"path": "pages/MeetingManage/MeetingManage",
+			"style": {
+				"navigationBarTitleText": "会议管理"
+			}
 		}
 	],
 	"globalStyle": {
