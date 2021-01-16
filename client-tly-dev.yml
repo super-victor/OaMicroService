@@ -1,0 +1,11 @@
+# client-tly 独有配置文件
+
+server:
+  port: 8086
+
+spring:
+  application:
+    name: client-tly
+ 
+document:
+  path: C:\Users\JohnTang\Desktop\oasystem
