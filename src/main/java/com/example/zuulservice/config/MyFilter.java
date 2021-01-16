@@ -43,20 +43,20 @@ public class MyFilter extends ZuulFilter {
      */
     @Override
     public boolean shouldFilter() {
-        //放行的url列表
-        List<String> urls = new ArrayList<>();
-        //根据请求路径
-        RequestContext context = RequestContext.getCurrentContext();
-        //获取请求路径
-        HttpServletRequest req = context.getRequest();
-        //如果路径在放行的路径之中
-        String url = req.getRequestURI();
-        for (String s : urls){
-            if (s.equals(url)) {
-                return false;
-            }
-        }
-        return true;
+//        //放行的url列表
+//        List<String> urls = new ArrayList<>();
+//        //根据请求路径
+//        RequestContext context = RequestContext.getCurrentContext();
+//        //获取请求路径
+//        HttpServletRequest req = context.getRequest();
+//        //如果路径在放行的路径之中
+//        String url = req.getRequestURI();
+//        for (String s : urls){
+//            if (s.equals(url)) {
+//                return false;
+//            }
+//        }
+        return false;
     }
 
     /**
