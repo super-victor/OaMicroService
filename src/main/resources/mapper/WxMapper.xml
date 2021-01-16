@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.modelservice.mapper.WxMapper">
+
+    <insert id="insertIntoWxinfo">
+        insert into wxinfo values(#{openid}, #{url}, #{nickname},#{secretkey}, #{emploeeId})
+    </insert>
+
+    <update id="updateWxInfo">
+        update wxinfo set openid = #{openid}
+        <if test="url != null">,url = #{url} </if>
+        <if test="nickname != null">,nickname = #{nickname} </if>
+        <if test="secretkey != null">,secretkey = #{secretkey} </if>
+        <if test="employeeId != null">,employeeId = #{employeeId} </if>
+        where openid = #{openid}
+    </update>
+    <delete id="deleteWxinfo">
+        delete from wxinfo where openid = #{openid}
+    </delete>
+
+    <select id="selectFromWxinfo" resultType="com.example.modelservice.pojo.WxInfo">
+        select * from wxinfo where openid = #{openid}
+    </select>
+
+
+</mapper>
