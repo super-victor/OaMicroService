@@ -23,11 +23,11 @@
         </view>
         <view class="schedule_row">
             <text>4.日程信息</text>
-            <input value="聚餐" placeholder="请输入日程信息" class="input"/>
+            <input v-model="scheduleInfo" placeholder="请输入日程信息" class="input"/>
         </view>
         <view class="schedule_row">
             <text>5.日程地点</text>
-            <input value="star" placeholder="请输入日程地点" class="input"/>
+            <input v-model="position" placeholder="请输入日程地点" class="input"/>
         </view>
         <view class="button_row">
             <button>提交</button>
@@ -45,11 +45,13 @@
 </template>
 
 <script>
+import uniCombox from '@dcloudio/uni-ui/lib/uni-combox/uni-combox';
 import datePicker from '../../../components/datePicker/bory-datePicker/index';
-import {getDateTime,chinaHours} from '../../../components/datePicker/utils/util.js'
+import {getDateTime,chinaHours} from '../../../components/datePicker/utils/util.js';
 export default {
     components: {
-        datePicker
+        datePicker,
+        uniCombox
     },
     data () {
         return {
@@ -63,11 +65,19 @@ export default {
             startTime:'2020-01-09 00:00:00',
             endTime:'2020-01-09 00:00:00',
             scheduleType: '个人日程',
+            scheduleInfo: '聚餐',
+            position: 'star',
+            joiner:['小花','张三'],
             timeType:'',
         }
     },
     onLoad(option) {
-        console.log(option);
+        // console.log(option);
+        if (option.id === "0") {
+            this.scheduleType = '个人日程';
+        } else {
+            this.scheduleType = '公司日程';
+        }
         var date = new Date().toLocaleString();
         const timeArray = date.split(' ');
         const timebe = timeArray[0].replace(/\//g,'-');
@@ -77,7 +87,7 @@ export default {
                 const startTime = this.chinaHours.find(item=>item.name == this.chinaTime);
                 const timeArray = this.currentTime.split(' ');
                 this.currentTime = `${timeArray[0]} ${startTime}`;
-                console.log(this.currentTime);
+                // console.log(this.currentTime);
             }
         }
         console.log(this.currentTime);

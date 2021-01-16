@@ -52,11 +52,13 @@ export default {
                 {
                     text: '个人',
                     iconPath:'/static/schedule/schedule_person.png',
+                    selectedIconPath: '/static/schedule/schedule_person.png',
                     active: false
                 },
                 {
                     text: '公司',
                     iconPath:'/static/schedule/schedule_company.png',
+                    selectedIconPath: '/static/schedule/schedule_company.png',
                     active: false
                 }
             ]
@@ -72,17 +74,8 @@ export default {
         },
         trigger(e) {
             console.log(e);
-            this.content[e.index].active = !e.item.active;
-            uni.showModal({
-                title: '提示',
-                content: `您${this.content[e.index].active?'选中了':'取消了'}${e.item.text}`,
-                success: function(res) {
-                    if (res.confirm) {
-                        console.log('用户点击确定');
-                    } else if (res.cancel) {
-                        console.log('用户点击取消');
-                    }
-                }
+            uni.navigateTo({
+                url:`/pages/Schedule/children/scheduleAdd?id=${e.index}`
             });
         }
     }

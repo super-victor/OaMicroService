@@ -31,6 +31,12 @@
 			}
 		},
 		{
+			"path": "pages/Schedule/children/scheduleAdd",
+			"style": {
+				"navigationBarTitleText": "日程添加"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "消息中心"
