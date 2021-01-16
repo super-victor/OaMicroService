@@ -53,12 +53,12 @@ import Swiper from '../../components/index/swiper.vue'
 					{
 						name:'名片夹',
 						src:'../../static/menu/card_holder_opt.png',
-						route:''
+						route:'/pages/CardFile/CardFile'
 					},
 					{
 						name:'日程安排',
 						src:'../../static/menu/schedule_opt.png',
-						route:''
+						route:'/pages/Schedule/Schedule'
 					},
 					{
 						name:'通讯录',

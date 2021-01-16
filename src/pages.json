@@ -13,6 +13,24 @@
 			}
 		},
 		{
+			"path": "pages/CardFile/CardFile",
+			"style": {
+				"navigationBarTitleText": "名片夹"
+			}
+		},
+		{
+			"path": "pages/Schedule/Schedule",
+			"style": {
+				"navigationBarTitleText": "日程安排"
+			}
+		},
+		{
+			"path": "pages/Schedule/children/scheduleEdit",
+			"style": {
+				"navigationBarTitleText": "日程编辑"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "消息中心"
