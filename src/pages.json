@@ -1,21 +1,22 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
 			"path": "pages/DocumentCirculation/DocumentCirculation",
 			"style": {
 				"navigationBarTitleText": "公文流转"
 			}
 		},
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "消息中心"
+				"navigationBarTitleText": "消息中心",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -46,6 +47,12 @@
 			"path": "pages/MeetingManage/MeetingManage",
 			"style": {
 				"navigationBarTitleText": "会议管理"
+			}
+		},
+			{
+			"path": "pages/personal/children/personalInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
 			}
 		}
 	],

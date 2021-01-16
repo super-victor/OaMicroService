@@ -1,18 +1,18 @@
 <template>
 	<view class="content">
         <view v-if="isBinding==0">
-            <view class="Title">身份认证</view>
+            <view class="Title">身份绑定</view>
             <view class="Tips">请在此绑定您的客户端登录信息</view>
             <view class="inputBox">
                 <input @input="onInput($event,'id')" class="input" type="number" maxlength="10" placeholder="请输入用户名" />
                 <input @input="onInput($event,'password')" style="margin-top:30rpx;" class="input" password type="text" placeholder="请输入密码" />
             </view>
-            <button class="button" type="primary" @click="submit()">提交认证</button>
+            <button class="button" type="primary" @click="submit()">提交</button>
         </view>
         <view v-else>
             <view class="SuccessBox">
                 <view class="icon"></view>
-                <text style="margin-left:20rpx;">您已认证成功</text>
+                <text style="margin-left:20rpx;">您已绑定成功</text>
             </view>
             <view class="inputBox">
                 <view class="text">用户名：{{id}}</view>
@@ -71,8 +71,6 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                 const res = await this.$request({
                     url:'/login',
                     method:'POST',
-                    // check:true,
-                    // user:true,
                     data:info
                 })
                 return res.data;
@@ -91,10 +89,8 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                     username:this.id,
                     password:this.password,
                 }
-                console.log(obj)
                this.bindingInfo(obj)
                 .then(res=>{
-                  console.log(res)
                     if(res.status!==200){
                         this.isActive = false;
                         wx.showToast({
@@ -103,8 +99,12 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                             duration: 2500
                         });
                     }else{
+                        wx.setStorage({
+                          key:'userInfo',
+                          data:res.object.userinfo
+                        })
                         this.isBinding=1;
-                        // this.name=res.username;
+                        this.name=res.object.userinfo.name;
                         this.isActive = false;
                         wx.showToast({
                             title:'认证成功',
