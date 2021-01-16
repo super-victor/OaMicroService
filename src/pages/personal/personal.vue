@@ -22,7 +22,7 @@
 		</view>
 		<view class="listBox">
 			<uni-list>
-				<uni-list-item :clickable="true" title="个人信息" @click="clickList('/pages/personal/personalInfo',1)"></uni-list-item>
+				<uni-list-item :clickable="true" title="个人信息" @click="clickList('/pages/personal/children/personalInfo',1)"></uni-list-item>
 				<uni-list-item :clickable="true" title="身份绑定" @click="clickList('/pages/personal/children/identityBinding',0)"></uni-list-item>
 			</uni-list>
 		</view>
@@ -53,61 +53,58 @@
 		onShow() {
 			// this.change = false;
 			// wx.showNavigationBarLoading();
+			// //已经获取了用户信息
 			// if(this.url!=''){
-			// 	this.getCoin()
-			// 	.then(res=>{
-			// 		this.coin = res.coin;
-			// 		wx.hideNavigationBarLoading();
-			// 	})
+			// 	wx.hideNavigationBarLoading();
 			// }else{
 			// 	this.$myGetUserInfo()
 			// 	.then(res=>{
-			// 		//赋值操作
+			// 		//如果能取到数据
 			// 		if(res.error!==2){
 			// 			let {nickname,url} = res;
-			// 			this.getCoin()
-			// 			.then(res2=>{
-			// 				this.coin = res2.coin;
-			// 				this.name = nickname;
-			// 				this.url = url;
-			// 				this.canlogin = false;
-			// 				wx.hideNavigationBarLoading();
-			// 				if(res.error===0){
-			// 					uni.showModal({
-			// 						title:'提示',
-			// 						content:'为了更好地为您提供服务，平台仅会获取您的头像、昵称等非敏感信息，如您允许我们使用信息，请前往修改页面打开权限许可',
-			// 						cancelText:'暂不修改',
-			// 						confirmText:'前往修改',
-			// 						success: (res) => {
-			// 							if (res.confirm) {
-			// 							wx.openSetting({
-			// 								success: (res) => {
-			// 									if(res.authSetting["scope.userInfo"]){
-			// 										wx.getUserInfo({
-			// 											lang:'zh_CN',
-			// 											withCredentials:false,
-			// 											success:(res)=>{
-			// 												this.$myRequest({
-			// 													url:'/user/setBasicInfo',
-			// 													method:'POST',
-			// 													check:true,
-			// 													user:true,
-			// 													data:{
-			// 														nickname:res.userInfo.nickName,
-			// 														url:res.userInfo.avatarUrl,
-			// 													}
-			// 												})
-			// 											}
-			// 										})
-			// 									}
+			// 			this.name = nickname;
+			// 			this.url = url;
+			// 			this.canlogin = false;
+			// 			wx.hideNavigationBarLoading();
+			// 			//判断信息的来源
+			// 			//如果来自数据库（系统未获得权限）
+			// 			if(res.error===0){
+			// 				uni.showModal({
+			// 					title:'提示',
+			// 					content:'为了更好地为您提供服务，平台仅会获取您的头像、昵称等非敏感信息，如您允许我们使用信息，请前往修改页面打开权限许可',
+			// 					cancelText:'暂不修改',
+			// 					confirmText:'前往修改',
+			// 					success: (res) => {
+			// 						if (res.confirm) {
+			// 						wx.openSetting({
+			// 							success: (res) => {
+			// 								if(res.authSetting["scope.userInfo"]){
+			// 									wx.getUserInfo({
+			// 										lang:'zh_CN',
+			// 										withCredentials:false,
+			// 										success:(res)=>{
+			// 											//存入数据库
+			// 											// this.$myRequest({
+			// 											// 	url:'/user/setBasicInfo',
+			// 											// 	method:'POST',
+			// 											// 	check:true,
+			// 											// 	user:true,
+			// 											// 	data:{
+			// 											// 		nickname:res.userInfo.nickName,
+			// 											// 		url:res.userInfo.avatarUrl,
+			// 											// 	}
+			// 											// })
+			// 										}
+			// 									})
 			// 								}
-			// 							})
 			// 							}
+			// 						})
 			// 						}
-			// 					})
-			// 				}
-			// 			})
+			// 					}
+			// 				})
+			// 			}
 			// 		}else{
+			// 			//没有取到数据
 			// 			this.canlogin=true;
 			// 			wx.hideNavigationBarLoading();
 			// 		}
@@ -115,14 +112,6 @@
 			// }
 		},
 		methods: {
-            async getCoin(){//获取硬币
-                const res = await this.$myRequest({
-                    url:'/user/getCoin',
-					method:'POST',
-					user:true,
-                })
-                return res.data;
-            },
 			closeBox(msg){
 				this.change=msg;
 			},
@@ -135,16 +124,10 @@
 				}
 			},
 			updatePage(msg){
-				wx.showNavigationBarLoading();
-				this.getCoin()
-				.then(res=>{
-					let {nickname,url} = msg;
-					this.name = nickname;
-					this.url = url;
-					this.coin = res.coin;
-					this.canlogin = false;
-					wx.hideNavigationBarLoading();
-				})
+				let {nickname,url} = msg;
+				this.name = nickname;
+				this.url = url;
+				this.canlogin = false;
 			},
 			clickList(pageUrl,islogin){
 				if(islogin!==0){
