@@ -41,6 +41,12 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		},
+		{
+			"path": "pages/personal/children/identityBinding",
+			"style": {
+				"navigationBarTitleText": "身份绑定"
+			}
 		}
 	],
 	"globalStyle": {
