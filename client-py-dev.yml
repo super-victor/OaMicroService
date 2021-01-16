@@ -1,0 +1,5 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: client-py # 服务器的名字
