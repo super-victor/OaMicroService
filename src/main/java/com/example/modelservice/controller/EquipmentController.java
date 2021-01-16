@@ -1,8 +1,6 @@
 package com.example.modelservice.controller;
 
-import com.example.modelservice.mapper.EquipmentClassifyMapper;
 import com.example.modelservice.mapper.EquipmentMapper;
-import com.example.modelservice.mapper.MeetingRoomMapper;
 import com.example.modelservice.pojo.Equipment;
 import org.springframework.web.bind.annotation.*;
 

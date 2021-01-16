@@ -1,6 +1,8 @@
 package com.example.modelservice.controller;
 
 import com.example.modelservice.mapper.CardHolderMapper;
+import com.example.modelservice.mapper.CardMapper;
+import com.example.modelservice.pojo.Card;
 import com.example.modelservice.pojo.CardHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class CardController {
 
     @Resource
     CardHolderMapper cardHolderMapper;
+
+    @Resource
+    CardMapper cardMapper;
 
     @GetMapping("/findCardHolderByEmployeeId")
     public List<CardHolder> findCardHolderByEmployeeId(Integer employeeId){
@@ -64,5 +69,10 @@ public class CardController {
     @PutMapping("/CardHolder")
     public int updateCardHolder(@RequestParam int cardHolderId, @RequestParam String name){
         return cardHolderMapper.updateCardHolderNameByCardHolderId(cardHolderId, name);
+    }
+
+    @GetMapping("/findCardByEmployeeId")
+    public List<Card> findCardByEmployeeId(@RequestParam int employeeId){
+        return cardMapper.findCardByEmployeeId(employeeId);
     }
 }

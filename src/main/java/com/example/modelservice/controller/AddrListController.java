@@ -1,10 +1,7 @@
 package com.example.modelservice.controller;
 
 import com.example.modelservice.mapper.DepartmentMapper;
-import com.example.modelservice.mapper.EmployeeMapper;
-import com.example.modelservice.pojo.Employee;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
