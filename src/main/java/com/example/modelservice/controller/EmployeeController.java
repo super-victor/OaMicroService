@@ -35,7 +35,6 @@ public class EmployeeController {
 
     @GetMapping("/findEmployeeByUsername")
     public Employee findEmployeeByUsername(@RequestParam String username){
-
         return employeeMapper.findEmployeeByUsername(username);
     }
 
