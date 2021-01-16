@@ -3,7 +3,7 @@ server:
   port: 8084
 spring:
   application:
-    name: schedule
+    name: client-wjw
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -17,7 +17,8 @@ eureka:
     lease-expiration-duration-in-seconds: 10
   client:
     service-url:
-      defaultZone: http://192.168.43.245:8081/eureka
+      defaultZone: http://121.196.40.164:8081/eureka
+
 
 feign:
   client:
@@ -41,3 +42,8 @@ jwt:
   secret: tangliyi123fddsafasgkahgjdhgkjfhago9gjoasjglkkdsanglkjnfadlkgjnlfkangl;afdngafdng;
   # 过期时间 604800
   expiration: 604800
+
+# ribbon的配置
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
