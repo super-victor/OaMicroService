@@ -1,3 +1,54 @@
-user:
-    name: He welcome
-    psw: 123456
+# spring的基本配置
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
+# spring-security的基本配置
+global-security-config:
+  allow-url-list:
+    - "/login"
+    - "/v2/**"
+    - "/swagger-resources/**"
+    - "/swagger-resources"
+    - "/swagger-ui**"
+    - "/webjars/**"
+    - "/download/**"
+    - "/message/**"
+
+
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    # 多久发一次心跳
+    lease-renewal-interval-in-seconds: 5
+    # 最后一次心跳后多久才能被移除
+    lease-expiration-duration-in-seconds: 10
+
+  client:
+    service-url:
+      defaultZone: http://121.196.40.164:8081/eureka
+    # 间隔多久去拉去服务器注册信息
+    # registry-fetch-interval-seconds:
+
+# token的配置
+jwt:
+  # 密钥
+  secret: tangliyi123fddsafasgkahgjdhgkjfhago9gjoasjglkkdsanglkjnfadlkgjnlfkangl;afdngafdng;
+  # 过期时间 604800
+  expiration: 604800
+
+# ribbon的配置
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+
+# 使用feign框架的配置
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
