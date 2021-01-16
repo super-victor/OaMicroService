@@ -37,11 +37,9 @@
                 this.$emit('close',false);
             },
             async setUserInfo(msg){//存储信息到数据库
-                const res = await this.$myRequest({
+                const res = await this.request({
                     url:'/user/setBasicInfo',
                     method:'POST',
-                    check:true,
-                    user:true,
                     data:{
                         nickname:msg.nickName,
                         url:msg.avatarUrl
@@ -51,14 +49,23 @@
             },
             bindGetUserInfo (e) {
                 if(e.detail.errMsg==='getUserInfo:ok'){
-                    this.setUserInfo(e.detail.userInfo)
-                    .then(res=>{
-                        if(res.error===114){
-                            console.log("权限认证错误");
-                        }else{
-                            this.$emit('refresh',{nickname:e.detail.userInfo.nickName,url:e.detail.userInfo.avatarUrl});
-                        }
+                    // this.setUserInfo(e.detail.userInfo)
+                    // .then(res=>{
+                    //     if(res.error===114){
+                    //         console.log("权限认证错误");
+                    //     }else{
+                    //         this.$emit('refresh',{nickname:e.detail.userInfo.nickName,url:e.detail.userInfo.avatarUrl});
+                    //     }
+                    // })
+                    wx.setStorage({
+                        key:'userUrl',
+                        data:e.detail.userInfo.avatarUrl
                     })
+                    wx.setStorage({
+                        key:'userNickName',
+                        data:e.detail.userInfo.nickName
+                    })
+                    this.$emit('refresh',{nickname:e.detail.userInfo.nickName,url:e.detail.userInfo.avatarUrl});
                 }
             }
 		}
