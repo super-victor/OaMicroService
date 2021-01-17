@@ -25,6 +25,10 @@ feign:
       default:
         loggerLevel: full
 
+ribbon:
+  ReadTimeout: 120000  #请求处理的超时时间
+  ConnectTimeout: 30000  #请求连接的超时时间
+
 
 zuul:
   routes:
@@ -40,3 +44,7 @@ zuul:
       path: /p/**
       strip-prefix: true
       serviceId: client-py
+    api-wx-url:
+      path: /wx/**
+      strip-prefix: true
+      serviceId: wx
