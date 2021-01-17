@@ -50,6 +50,7 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
             //         this.isActive=false;
             //     }
             // })
+        
 		},
 		methods: {
             onInput(e,name){

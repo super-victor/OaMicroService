@@ -3,6 +3,8 @@
 		
 		{
 			"path": "pages/index/index",
+<<<<<<< HEAD
+=======
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
@@ -33,16 +35,23 @@
 		},
 		{
 			"path": "pages/DocumentCirculation/DocumentCirculation",
+>>>>>>> hyc
 			"style": {
-				"navigationBarTitleText": "公文流转"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		
 		
 		{
+<<<<<<< HEAD
+			"path": "pages/DocumentCirculation/DocumentCirculation",
+			"style": {
+				"navigationBarTitleText": "公文流转"
+=======
 			"path": "pages/Schedule/children/scheduleEdit",
 			"style": {
 				"navigationBarTitleText": "日程编辑"
+>>>>>>> hyc
 			}
 		},
 		{
@@ -65,9 +74,33 @@
 			}
 		},
 		{
+			"path": "pages/AddrList/AddrList",
+			"style": {
+				"navigationBarTitleText": "通讯录查询"
+			}
+		},
+		{
+			"path": "pages/MeetingroomManage/MeetingroomManage",
+			"style": {
+				"navigationBarTitleText": "会议室管理"
+			}
+		},
+		{
+			"path": "pages/MeetingManage/MeetingManage",
+			"style": {
+				"navigationBarTitleText": "会议管理"
+			}
+		},
+			{
 			"path": "pages/personal/children/personalInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/AddrList/Children/AddrDetails",
+			"style": {
+				"navigationBarTitleText": "详情"
 			}
 		}
 	],
