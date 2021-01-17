@@ -1,5 +1,7 @@
 <template>
     <view class="RoomManage">
+        
+
         <!-- <view class="content">
 		<view class="current_time" @click.stop="openCalendar">{{time}}</view>
 		<calendar-picker 
@@ -13,20 +15,20 @@
 						></calendar-picker> 
  	</view> -->
 
-        <view class="date">
+        <!-- <view class="date">
             <uni-calendar 
             :insert="false"
             :lunar="false" 
             @change="change"
             ref="calendar"
             ></uni-calendar>      
-        </view>
+        </view> -->
         <uni-grid class="uniGrid" :column="3" :show-border="true"  :square="true">
             <uni-grid-item v-for="i in roomList" :key="i">
-                <text class="text">{{i.name}}</text>
+                <text class="text" @click="handleClick(i)">{{i.name}}</text>
             </uni-grid-item>
         </uni-grid>
-        <uni-card title="今日会议"  note="Tips" >
+        <uni-card title="今日会议"  >
             <uni-list class="list">
                 <uni-list-item  :title="i.name" v-for="i in meetinglist" :key="i" 
                 :note="i.meetingRoomName" :rightText="'开会时间：'+i.startTime.substr(11)"></uni-list-item>
@@ -59,6 +61,7 @@ import uniCard from "@dcloudio/uni-ui/lib/uni-card/uni-card"
 import uniList from "@dcloudio/uni-ui/lib/uni-list/uni-list"
 import uniListItem from "@dcloudio/uni-ui/lib/uni-list-item/uni-list-item"
 import ourLoading from '@/components/our-loading/our-loading.vue'
+
 export default {
     components:{
    //         CalendarPicker,
@@ -70,7 +73,7 @@ export default {
             uniIcons,
             uniList,
             uniListItem,
-            ourLoading
+            ourLoading,
 		},
     data(){
         return{
@@ -93,7 +96,21 @@ export default {
                 }],
                 roomList:[],
                 meetinglist:[],
-                isActive:true
+                isActive:true,
+                 formData:{
+                name:'',
+                age:''
+            },
+            hobby: [{
+                text: '足球',
+                value: 0
+            }, {
+                text: '篮球',
+                value: 1
+            }, {
+                text: '游泳',
+                value: 2
+            }]
         }
     },
     onLoad() {
@@ -111,10 +128,8 @@ export default {
     created(){
         var date = new Date()
              this.getAllMeetingRoom().then(res=>{
-                this.isActive = false
                 this.roomList = res.object;
-            })
-           this.getAllMeetings().then(res=>{
+                 this.getAllMeetings().then(res=>{
                 console.log(res.object)
                 this.isActive = false
                 this.meetinglist = res.object.filter(item=>{
@@ -122,6 +137,8 @@ export default {
                 })
                 console.log(this.meetinglist)
             })
+            })
+          
 			
     },
     methods:{
@@ -172,6 +189,18 @@ export default {
             })
             return res.data;
         },
+        submitForm(form) {
+            // 手动提交表单
+            this.$refs.form.submit().then((res)=>{
+                console.log('表单返回得值：', res)
+            })
+        },
+        handleClick(res){
+            console.log('res:',res)
+             wx.navigateTo({
+                url: `/pages/MeetingroomManage/Children/AppointMeeting?res=${res.name}`
+            })
+        }
     }
 }
 </script>

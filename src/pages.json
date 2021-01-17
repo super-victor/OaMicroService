@@ -2,8 +2,6 @@
 	"pages": [
 		{
 			"path": "pages/index/index",
-<<<<<<< HEAD
-=======
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
@@ -26,25 +24,16 @@
 				"navigationBarTitleText": "日程安排"
 			}
 		},
-		{
-			"path": "pages/DocumentCirculation/DocumentCirculation",
->>>>>>> hyc
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		
 		
 		{
-<<<<<<< HEAD
 			"path": "pages/DocumentCirculation/DocumentCirculation",
 			"style": {
 				"navigationBarTitleText": "公文流转"
-=======
+			}
+		},{
 			"path": "pages/Schedule/children/scheduleEdit",
 			"style": {
 				"navigationBarTitleText": "日程编辑"
->>>>>>> hyc
 			}
 		},
 		{
@@ -94,6 +83,12 @@
 			"path": "pages/AddrList/Children/AddrDetails",
 			"style": {
 				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/MeetingroomManage/Children/AppointMeeting",
+			"style": {
+				"navigationBarTitleText": "会议预约"
 			}
 		}
 	],

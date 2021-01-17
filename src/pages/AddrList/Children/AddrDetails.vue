@@ -1,14 +1,14 @@
 <template>
   <view class="AddrDetails">
-    <uni-card class="uCard" :title="peopleName"  :extra="'职工id：'+personalMessage[0].employeeId" note="Tips" :is-full="true" >
+    <uni-card class="uCard" :title="peopleName"  :extra="'职工id：'+personalMessage[0].employeeId"  :is-full="true" >
         <view class="mes">{{"电话号码："+ personalMessage[0].phone}}</view>
         <view class="mes">{{"电子邮箱："+ personalMessage[0].email}}</view>
-        <view class="mes">{{"入职日期："+ personalMessage[0].entryTime.substr(0,10)}}</view>
-        <template v-slot:footer>
+        <view class="mes">{{"入职日期："+ (personalMessage[0] && personalMessage[0].entryTime.substr(0,10))}}</view>
+        <!-- <template v-slot:footer>
         <view class="footer-box">
-          <button class="btn" type="warn">删除此联系人</button>
+         / <button class="btn" type="warn" @tap="handleClick()">删除此联系人</button>
         </view>
-    </template>
+    </template> -->
     </uni-card>
       <ourLoading :active='isActive' text="loading..." />
    </view>
