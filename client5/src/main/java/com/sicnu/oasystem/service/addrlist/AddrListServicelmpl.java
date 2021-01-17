@@ -19,10 +19,6 @@ import java.util.List;
 @Service
 public class AddrListServicelmpl implements AddrListService {
 
-//    EmployeeMapper employeeMapper;
-//
-//    @Resource
-//    DepartmentMapper departmentMapper;
 
     @Resource
     AddrListsData addrlistsdata;
@@ -35,7 +31,6 @@ public class AddrListServicelmpl implements AddrListService {
      * @LastChangeDate 2020/11/8
      */
     public BackFrontMessage getAllEmplyeAddr(){
-//        List<Employee> AllEmplyeAddr=employeeMapper.getAllEmployee();
         List<Employee> AllEmplyeAddr=addrlistsdata.getAllEmployee();
         if(AllEmplyeAddr!=null){
             return new BackFrontMessage(200,"获取成功",AllEmplyeAddr);
@@ -53,7 +48,6 @@ public class AddrListServicelmpl implements AddrListService {
      * @LastChangeDate 2020/11/8
      */
     public BackFrontMessage getDeparmentName(){
-//        List<String> DepartmentName=departmentMapper.getAllDepartmentName();
         List<String> DepartmentName=addrlistsdata.getAllDepartmentName();
         if (DepartmentName!=null){
             return new BackFrontMessage(200,"获取成功",DepartmentName);
@@ -73,10 +67,8 @@ public class AddrListServicelmpl implements AddrListService {
      * @LastChangeDate 2020/11/8
      */
     public BackFrontMessage getEmployeeBypage(Integer currentPageNum, Integer pageSize){
-//        int employeenums=employeeMapper.getemployeenumbers();
         int employeenums=addrlistsdata.getemployeenumbers();
 
-//        List<Employee> employees=employeeMapper.getEmployeeBypage(currentPageNum,pageSize);
         List<Employee> employees=addrlistsdata.getEmployeeBypage(currentPageNum,pageSize);
         if(employeenums!=0 && employees!=null){
             int totalPageNum=0;
@@ -102,7 +94,6 @@ public class AddrListServicelmpl implements AddrListService {
      */
     @Override
     public BackFrontMessage getEmployeeByCondition(String name, String sex) {
-//        List<Employee> employees=employeeMapper.getEmployeeByCondition(name,sex);
         List<Employee> employees=addrlistsdata.getEmployeeByCondition(name,sex);
         if (employees!=null){
             return new BackFrontMessage(200,"success",employees);

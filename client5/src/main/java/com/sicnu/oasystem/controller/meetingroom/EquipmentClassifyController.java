@@ -61,7 +61,7 @@ public class EquipmentClassifyController {
      * @LastChangeDate 2020/11/19
      */
     @ApiOperation("获取所有设备分类信息")
-    @GetMapping("/getAllEquipmentClassify")
+        @GetMapping("/getAllEquipmentClassify")
     public BackFrontMessage getAllEquipmentClassify(){
         return equipmentClassifyServicelmpl.getAllEquipmentClassify();
     }

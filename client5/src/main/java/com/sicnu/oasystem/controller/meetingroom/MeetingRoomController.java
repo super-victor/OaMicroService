@@ -106,6 +106,5 @@ public class MeetingRoomController {
     public BackFrontMessage getAllMeetingRoomByStorey(){
         return meetingRoomService.getAllMeetingRoomByStorey();
     }
-
 }
 

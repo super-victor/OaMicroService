@@ -135,5 +135,4 @@ public interface MeetingService {
                                         String name, Date startTime, Date endtime,
                                         Integer peoplenum, String remark);
 
-    Map<String,Object> MeetingTrendInfo();
 }

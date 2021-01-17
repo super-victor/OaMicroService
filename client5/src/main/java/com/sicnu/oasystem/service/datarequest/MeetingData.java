@@ -62,9 +62,9 @@ public interface MeetingData {
     List<Meeting> waitingApproveMeeting();
 
     @GetMapping("/judgeIsIsOccupy")
-    List<Meeting> judgeIsIsOccupy(@RequestParam Integer meetingroomId,
-                                  @RequestParam Date startTime,
-                                  @RequestParam Date endTime);
+    List<Meeting> judgeIsIsOccupy(@RequestParam("meetingroomId") Integer meetingroomId,
+                                  @RequestParam("startTime") Date startTime,
+                                  @RequestParam("endTime") Date endTime);
 
     @GetMapping("/getAllMeetingTimeByRoomAndTime")
     List<Meeting> getAllMeetingTimeByRoomAndTime(@RequestParam("meetingrommid") Integer meetingrommid,

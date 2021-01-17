@@ -4,7 +4,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: client5 # 服务器的名字
+    name: client-py # 服务器的名字
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -14,6 +14,7 @@ eureka:
     hostname: ${spring.cloud.client.ip-address}
   client:
     service-url:
+#      defaultZone: http://121.196.40.164:8081/eureka
       defaultZone: http://192.168.43.245:8081/eureka
 
 
@@ -22,3 +23,27 @@ feign:
     config:
       default:
         loggerLevel: full
+#
+#
+global-security-config:
+  allow-url-list:
+    - "/login"
+    - "v2/**"
+    - "/swagger-resources/**"
+    - "/swagger-resources"
+    - "/swagger-ui**"
+    - "/webjars/**"
+    - "/download/**"
+    - "/message/**"
+
+jwt:
+  # 密钥
+  secret: tangliyi123fddsafasgkahgjdhgkjfhago9gjoasjglkkdsanglkjnfadlkgjnlfkangl;afdngafdng;
+  # 过期时间 604800
+  expiration: 604800
+
+ribbon:
+  ReadTimeout: 3000000
+  ConnectTimeout: 3000000
+
+

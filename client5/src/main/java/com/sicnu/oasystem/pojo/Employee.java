@@ -36,7 +36,6 @@ public class Employee implements UserDetails {
     @NotNull(groups = Add.class)
     private String name;
     private Date birthday;
-    @JsonIgnore
     @NotNull(groups = Add.class)
     @Size(max = 20,min = 5)
     private String password;
@@ -70,12 +69,9 @@ public class Employee implements UserDetails {
     @NotNull(groups = Add.class)
     private String homeAddress;
     private int isAccountLocked;
-    @JsonIgnore
     private Date passwordChangeDate;
-    @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     private List<Role> authorities;

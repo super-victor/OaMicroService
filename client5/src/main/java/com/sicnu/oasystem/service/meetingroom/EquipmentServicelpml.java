@@ -1,16 +1,12 @@
 package com.sicnu.oasystem.service.meetingroom;
 
 import com.sicnu.oasystem.json.BackFrontMessage;
-//import com.sicnu.oasystem.mapper.EquipmentClassifyMapper;
-//import com.sicnu.oasystem.mapper.EquipmentMapper;
-//import com.sicnu.oasystem.mapper.MeetingRoomMapper;
 import com.sicnu.oasystem.pojo.Equipment;
 import com.sicnu.oasystem.pojo.EquipmentClassify;
 import com.sicnu.oasystem.pojo.MeetingRoom;
 import com.sicnu.oasystem.service.datarequest.EquipmentClassifyData;
 import com.sicnu.oasystem.service.datarequest.EquipmentData;
 import com.sicnu.oasystem.service.datarequest.MeetingRoomData;
-//import com.sicnu.oasystem.util.LogUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,17 +23,6 @@ import java.util.List;
 public class EquipmentServicelpml implements EquipmentService {
 
 
-//    @Resource
-//    EquipmentMapper equipmentMapper;
-//
-//    @Resource
-//    EquipmentClassifyMapper equipmentClassifyMapper;
-//
-//    @Resource
-//    MeetingRoomMapper meetingRoomMapper;
-
-//    @Resource
-//    LogUtil logUtil;
     @Resource
     EquipmentData equipmentData;
 
@@ -64,9 +49,6 @@ public class EquipmentServicelpml implements EquipmentService {
             if(res==0){
                 return new BackFrontMessage(500,"添加设备失败",null);
             }else{
-//                logUtil.insertInfo("添加设备"+"equipmentclassifyId:"+equipmentclassifyId+
-//                        ",meetingroomId:"+meetingroomId+",name:"+name+",ismaintain:"+ismaintain+
-//                        ",remark:"+remark+",num:"+num);
                 return new BackFrontMessage(200,"添加设备成功",null);
             }
         }else{
@@ -97,7 +79,6 @@ public class EquipmentServicelpml implements EquipmentService {
             if(res==0){
                 return new BackFrontMessage(500,"更新设备失败",null);
             }else {
-//                logUtil.updateInfo("修改设备成功"+equipment);
                 return new BackFrontMessage(200,"更新设备成功",null);
             }
         }
@@ -138,7 +119,6 @@ public class EquipmentServicelpml implements EquipmentService {
             if(res==0){
                 return new BackFrontMessage(500,"删除设备失败",null);
             }else{
-//                logUtil.deleteInfo("删除设备"+equipment);
                 return new BackFrontMessage(200,"删除设备成功",null);
             }
         }

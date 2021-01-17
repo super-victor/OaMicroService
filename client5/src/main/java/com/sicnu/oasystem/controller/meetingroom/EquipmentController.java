@@ -93,7 +93,7 @@ public class EquipmentController {
      * @LastChangeDate 2020/12/10
      */
     @ApiOperation("通过设备Id获取设备信息")
-    @GetMapping("/getEquipmentById")
+        @GetMapping("/getEquipmentById")
     public BackFrontMessage getEquipmentById(@Validated @NotNull(message = "设备id不能为空") Integer equipmentId){
         return equipmentServicelpml.getEquipmentById(equipmentId);
     }

@@ -1,10 +1,8 @@
 package com.sicnu.oasystem.service.meetingroom;
 
 import com.sicnu.oasystem.json.BackFrontMessage;
-//import com.sicnu.oasystem.mapper.MeetingRoomMapper;
 import com.sicnu.oasystem.pojo.MeetingRoom;
 import com.sicnu.oasystem.service.datarequest.MeetingRoomData;
-//import com.sicnu.oasystem.util.LogUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,11 +21,6 @@ import java.util.Map;
 @Service
 public class MeetingRoomServicelmpl implements MeetingRoomService {
 
-//    @Resource
-//    MeetingRoomMapper meetingRoomData;
-
-//    @Resource
-//    LogUtil logUtil;
 
     @Resource
     MeetingRoomData meetingRoomData;
@@ -75,7 +68,6 @@ public class MeetingRoomServicelmpl implements MeetingRoomService {
             if(res==0){
                 return new BackFrontMessage(500,"更新会议室失败",null);
             }else {
-//                logUtil.updateInfo("跟新会议室,将"+meetingRoom+"修改为："+meetingRoomData.getMeetingRoomById(MeetingRoomId));
                 return new BackFrontMessage(200,"更新会议室成功",null);
             }
         }
@@ -92,7 +84,6 @@ public class MeetingRoomServicelmpl implements MeetingRoomService {
             if (res==0){
                 return new BackFrontMessage(500,"删除会议室失败",null);
             }else {
-//                logUtil.deleteInfo("删除会议室"+meetingRoom);
                 return new BackFrontMessage(200,"删除会议室成功",null);
             }
         }
@@ -112,7 +103,6 @@ public class MeetingRoomServicelmpl implements MeetingRoomService {
             if(res==0){
                 return new BackFrontMessage(500,"添加会议室失败",null);
             }else {
-//                logUtil.insertInfo("添加会议室,"+"name:"+name+",place:"+place+"isOccapy:"+isOccapy+",maxpserson:"+maxperson);
                 return new BackFrontMessage(200,"添加会议室成功",null);
             }
         }
