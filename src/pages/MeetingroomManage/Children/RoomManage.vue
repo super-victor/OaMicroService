@@ -19,30 +19,20 @@
             :lunar="false" 
             @change="change"
             ref="calendar"
-            ></uni-calendar> 
-            <button @click="open">打开日历</button>      
+            ></uni-calendar>      
         </view>
         <uni-grid class="uniGrid" :column="3" :show-border="true"  :square="true">
-            <uni-grid-item>
-                <text class="text">101会议室</text>
-            </uni-grid-item>
-            <uni-grid-item>
-                <text class="text">202会议室</text>
-            </uni-grid-item>
-            <uni-grid-item>
-                <text class="text">121会议室</text>
-            </uni-grid-item>
-            <uni-grid-item>
-                <text class="text">123会议室</text>
-            </uni-grid-item>
-            <uni-grid-item>
-                <text class="text">321会议室</text>
-            </uni-grid-item>
-            <uni-grid-item>
-                <text class="text">311会议室</text>
+            <uni-grid-item v-for="i in roomList" :key="i">
+                <text class="text">{{i.name}}</text>
             </uni-grid-item>
         </uni-grid>
-         <view>
+        <uni-card title="今日会议"  note="Tips" >
+            <uni-list class="list">
+                <uni-list-item  :title="i.name" v-for="i in meetinglist" :key="i" 
+                :note="i.meetingRoomName" :rightText="'开会时间：'+i.startTime.substr(11)"></uni-list-item>
+            </uni-list>
+        </uni-card>
+         <!-- <view>
             <uni-fab
                 :pattern="pattern"
                 :content="content"
@@ -51,28 +41,36 @@
                 direction="vertical"
                 @trigger="trigger"
             ></uni-fab>
-        </view>
+        </view> -->
+        <ourLoading :active='isActive' text="loading..." />
     </view> 
     
 </template>
 
 <script>
-import uniCalendar from '@dcloudio/uni-ui/lib/uni-calendar/uni-calendar'
+// import uniCalendar from '@dcloudio/uni-ui/lib/uni-calendar/uni-calendar'
 import uniGrid from "@dcloudio/uni-ui/lib/uni-grid/uni-grid"
 import uniGridItem from "@dcloudio/uni-ui/lib/uni-grid-item/uni-grid-item"
 	// import CalendarPicker from '../../../components/datePicker/bory-datePicker';
 	// import {getDateTime,chinaHours} from '../../../components/datePicker/utils/util.js'
 import uniFab from "@dcloudio/uni-ui/lib/uni-fab/uni-fab"
 import uniIcons from "@dcloudio/uni-ui/lib/uni-icons/uni-icons"
-
+import uniCard from "@dcloudio/uni-ui/lib/uni-card/uni-card"
+import uniList from "@dcloudio/uni-ui/lib/uni-list/uni-list"
+import uniListItem from "@dcloudio/uni-ui/lib/uni-list-item/uni-list-item"
+import ourLoading from '@/components/our-loading/our-loading.vue'
 export default {
     components:{
    //         CalendarPicker,
+            uniCard,
             uniGrid,
             uniGridItem,
-            uniCalendar,
+            // uniCalendar,
             uniFab,
-            uniIcons
+            uniIcons,
+            uniList,
+            uniListItem,
+            ourLoading
 		},
     data(){
         return{
@@ -92,7 +90,10 @@ export default {
                     text:'预约会议',
                 },{
                     text:'234',
-                }]
+                }],
+                roomList:[],
+                meetinglist:[],
+                isActive:true
         }
     },
     onLoad() {
@@ -103,11 +104,25 @@ export default {
 			// 		const timeArray = this.currentTime.split(' ');
 			// 		this.currentTime = `${timeArray[0]} ${startTime}`;
 			// 	}
-			// }
+            // }
+       
 			
 		},
     created(){
-     
+        var date = new Date()
+             this.getAllMeetingRoom().then(res=>{
+                this.isActive = false
+                this.roomList = res.object;
+            })
+           this.getAllMeetings().then(res=>{
+                console.log(res.object)
+                this.isActive = false
+                this.meetinglist = res.object.filter(item=>{
+                    return item.startTime.substr(0,10) == date.toISOString().slice(0, 10) && item.appoinmentStatus!=0?'item':''
+                })
+                console.log(this.meetinglist)
+            })
+			
     },
     methods:{
         	// //打开日期选择器
@@ -140,7 +155,23 @@ export default {
         },
         trigger(res){
             console.log('trigger',res)
-        }
+        },
+        //获取会议室
+        async getAllMeetingRoom(){
+            const res = await this.$request({
+                url:'/getAllMeetingRoom',
+                method:'get'
+            })
+        return res.data;
+        },
+        //获取会议信息
+        async getAllMeetings() {
+            const res = await this.$request({
+            url: '/getAllMeetings',
+            method: 'get',
+            })
+            return res.data;
+        },
     }
 }
 </script>
@@ -155,4 +186,5 @@ export default {
             }
         }
     }
+   
 </style>

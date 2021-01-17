@@ -1,15 +1,15 @@
 {
 	"pages": [
 		{
-			"path": "pages/DocumentCirculation/DocumentCirculation",
-			"style": {
-				"navigationBarTitleText": "公文流转"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/DocumentCirculation",
+			"style": {
+				"navigationBarTitleText": "公文流转"
 			}
 		},
 		{
@@ -53,6 +53,12 @@
 			"path": "pages/personal/children/personalInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/AddrList/Children/AddrDetails",
+			"style": {
+				"navigationBarTitleText": "详情"
 			}
 		}
 	],

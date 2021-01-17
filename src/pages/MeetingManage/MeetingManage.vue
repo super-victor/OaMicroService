@@ -1,9 +1,7 @@
 <template>
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="text" active-color="#5383EC"></uni-segmented-control>
-    <view v-show="current===0">
-		<MeetingManage></MeetingManage> 
-    </view>
+   <MeetingManage :current="current"></MeetingManage>
     
 	</view>
 </template>
@@ -18,12 +16,14 @@ import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-
 		},
 		data() {
 			return {
-        items: ['个人会议信息'],
-        current: 0,
+        items: ['待进行会议','历史会议','待审批会议'],
+        current:0,
 			}
 		},
-		onLoad() {
-
+		onLoad(id) {
+			console.log(id.id)
+			console.log('id:',id.id == 1)
+			if( id.id == 1) this.current = 2
 		},
 		methods: {
 			onClickItem(e) {
@@ -31,7 +31,7 @@ import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-
 					this.current = e.currentIndex;
 				}
 			},
-		}
+		},
 	}
 </script>
 

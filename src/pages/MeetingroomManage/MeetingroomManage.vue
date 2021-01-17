@@ -18,12 +18,13 @@ import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-
 		},
 		data() {
 			return {
-        items: ['会议室信息'],
-        current: 0,
+				items: ['会议室信息'],
+				current: 0,
 			}
 		},
 		onLoad() {
-
+			var date = new Date()
+			this.items = ['会议室信息 '+date.toISOString().slice(0, 10)]
 		},
 		methods: {
 			onClickItem(e) {

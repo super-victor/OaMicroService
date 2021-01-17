@@ -17,110 +17,123 @@
             </view>
         </view> -->
         <view class="list">
-            <uni-indexed-list :options="list" :showSelect="false" ></uni-indexed-list>
+            <uni-indexed-list :options="list" :showSelect="false" class="uniList" @click="getName"></uni-indexed-list>
         </view>
+        <ourLoading :active='isActive' text="loading..." />
     </view>
+    
 </template>
 
 <script>
 import uniSearchBar from "@dcloudio/uni-ui/lib/uni-search-bar/uni-search-bar"
 import uniIndexedList from "@dcloudio/uni-ui/lib/uni-indexed-list/uni-indexed-list"
+import ourLoading from '@/components/our-loading/our-loading.vue'
 export default {
     components:{
 			uniIndexedList,
-            uniSearchBar
+            uniSearchBar,
+            ourLoading
 		},
     data(){
         return{
             pinyin:'',
             isInput:true,
-            //Search:'',
-            // alphabet:'',
-            //name:['Ans','Actor','Adr','Bob','Dg','Gary','Caitlin','Arthas','Catalina','Brand','Eve','Android','C++','陈元华','黄煜城','刘以强','李京鸿']
+            datalist:[],
+            isActive:true,
             list:[{
                 "letter": "A",
-                "data" :['']
+                "data" :[]
             },{
                 "letter": "B",
-                "data" :['']
+                "data" :[]
             },{
                 "letter": "C",
-                "data" :['']
+                "data" :[]
             },{
                 "letter": "D",
-                "data" :['']
+                "data" :[]
             },{
                 "letter": "E",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "F",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "G",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "H",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "I",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "J",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "K",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "L",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "M",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "N",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "O",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "P",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "Q",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "R",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "S",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "T",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "U",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "V",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "W",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "X",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "Y",
-                "data" :['']
+                 "data" :[]
             },{
                 "letter": "Z",
-                "data" :['']
+                 "data" :[]
             }]
         }
     },
     created(){
         this.pinyin = require('js-pinyin');
         this.pinyin.setOptions({checkPolyphone: false, charCase: 0});
+        this.dataRequest().then(res=>{
+            this.datalist = res.object
+            this.isActive = false
+            console.log(this.datalist)
+            for(var i = 0 ;i<this.list.length;i++){
+                this.datalist.map(item=>{
+                    if(this.list[i].letter == this.pinyin.getFullChars(item.name).substr(0,1)) this.list[i].data.push(item.name);
+                })
+            }
+        })
         // console.log(pinyin.getFullChars('黄煜城 ').substr(0,1));
         // console.log(pinyin.getCamelChars('黄煜城'));
     },
@@ -135,8 +148,18 @@ export default {
            this.isInput = true;
             console.log("err")
         },
-        handleClick(j){
-            console.log(j+' isClick')
+        getName(res){
+            console.log(res)
+            wx.navigateTo({
+                url: `/pages/AddrList/Children/AddrDetails?name=${res.item.name}`
+            })      
+        },
+        async dataRequest(){
+            const res = await this.$request({
+            url:'/addressbook',
+            method:'get',
+            })
+            return res.data;
         },
     }
 }
@@ -148,8 +171,9 @@ export default {
         .head{
             height:50rpx;
         }
-        .list{
-            margin-top:400rpx;
-        }
+
+    }
+    ::v-deep .uniList{
+    
     }
 </style>
