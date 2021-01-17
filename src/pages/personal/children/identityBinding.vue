@@ -4,7 +4,7 @@
             <view class="Title">身份绑定</view>
             <view class="Tips">请在此绑定您的客户端登录信息</view>
             <view class="inputBox">
-                <input @input="onInput($event,'id')" class="input" type="number" maxlength="10" placeholder="请输入用户名" />
+                <input @input="onInput($event,'id')" class="input" placeholder="请输入用户名" />
                 <input @input="onInput($event,'password')" style="margin-top:30rpx;" class="input" password type="text" placeholder="请输入密码" />
             </view>
             <button class="button" type="primary" @click="submit()">提交</button>
@@ -31,7 +31,7 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
 		},
 		data() {
 			return {
-        isActive:false,
+        isActive:true,
         isBinding:'0',
         id:'',
         password:'',
@@ -39,17 +39,18 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
 			}
 		},
 		onLoad() {
-            // this.bindingStatus()
-            // .then(res=>{
-            //     if(res.error===0){
-            //         this.isBinding=res.binding+'';
-            //         if(res.binding==1){
-            //             this.id=res.id;
-            //             this.name=res.username;
-            //         }
-            //         this.isActive=false;
-            //     }
-            // })
+            this.bindingStatus({
+              openid:wx.getStorageSync('userId')
+            })
+            .then(res=>{
+                if(res.status===200){
+                    let {name,username} = res.object;
+                    this.isBinding='1';
+                    this.id=username;
+                    this.name=name;
+                }
+                this.isActive=false;
+            })
 		},
 		methods: {
             onInput(e,name){
@@ -59,17 +60,17 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                     this.password=e.detail.value;
                 }
             },
-            async bindingStatus(){//绑定状态
-                const res = await this.$myRequest({
-                    url:'/user/bindingStatus',
-                    method:'POST',
-                    user:true,
+            async bindingStatus(info){//绑定状态
+                const res = await this.$request2({
+                    url:'/wx/isbind',
+                    method:'get',
+                    data:info
                 })
                 return res.data;
             },
             async bindingInfo(info){//绑定信息
-                const res = await this.$request({
-                    url:'/login',
+                const res = await this.$request2({
+                    url:'/wx/binduser',
                     method:'POST',
                     data:info
                 })
@@ -88,6 +89,7 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                 let obj = {
                     username:this.id,
                     password:this.password,
+                    openid:wx.getStorageSync('userId')
                 }
                this.bindingInfo(obj)
                 .then(res=>{
@@ -99,15 +101,21 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                             duration: 2500
                         });
                     }else{
+                      console.log(res)
                         wx.setStorage({
                           key:'userInfo',
-                          data:res.object.userinfo
+                          data:res.object.userInfo
+                        })
+                        wx.setStorage({
+                          key:'userToken',
+                          data:res.object.token
                         })
                         this.isBinding=1;
-                        this.name=res.object.userinfo.name;
+                        this.name=res.object.userInfo.name;
+                        this.id=res.object.userInfo.username;
                         this.isActive = false;
                         wx.showToast({
-                            title:'认证成功',
+                            title:'绑定成功',
                             icon:'none',
                             duration: 2500
                         });

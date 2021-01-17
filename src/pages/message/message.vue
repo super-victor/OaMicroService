@@ -6,7 +6,7 @@
 				<no-data v-if="notReadList.length===0"></no-data>
 				<uni-swipe-action v-else>
 					<uni-swipe-action-item
-					 :right-options="options" 
+					 :right-options="options"
 					 v-for="(item,index) in notReadList"
 					 @click="onClick($event,item.messageId,index,item)"
 					 :key="item.messageId">
@@ -79,9 +79,17 @@
 			}
 		},
 		onLoad() {
-			uni.startPullDownRefresh();
 		},
 		onShow(){
+			if(wx.getStorageSync('userToken')){
+				if(this.isFirst) uni.startPullDownRefresh();
+			}else{
+				wx.showToast({
+					title:'请先进行账号绑定',
+					icon:'none',
+					duration: 2500
+				});
+			}
 			if(!this.isFirst){
 				wx.showNavigationBarLoading();
 				this.getInfo()
@@ -109,29 +117,37 @@
 		},
 		//监听手动下拉刷新
 		onPullDownRefresh() {
-			setTimeout(()=>{
-				this.getInfo()
-				.then(res=>{
-					if(res.status!==200){
-						wx.showToast({
-							title:'获取信息失败',
-							icon:'none',
-							duration: 2500
-						});
-					}else{
-						this.readList=[];
-						this.notReadList=[];
-						for(let item of res.object){
-							if(item.isRead===1){
-								this.readList.push(item);
-							}else{
-								this.notReadList.push(item);
+			if(wx.getStorageSync('userToken')){
+				setTimeout(()=>{
+					this.getInfo()
+					.then(res=>{
+						if(res.status!==200){
+							wx.showToast({
+								title:'获取信息失败',
+								icon:'none',
+								duration: 2500
+							});
+						}else{
+							this.readList=[];
+							this.notReadList=[];
+							for(let item of res.object){
+								if(item.isRead===1){
+									this.readList.push(item);
+								}else{
+									this.notReadList.push(item);
+								}
 							}
 						}
-					}
-					uni.stopPullDownRefresh();
-				})
-			}, 600);
+						uni.stopPullDownRefresh();
+					})
+				}, 600);
+			}else{
+				wx.showToast({
+					title:'请先进行账号绑定',
+					icon:'none',
+					duration: 2500
+				});
+			}
 		},
 		methods: {
 			onClickItem(e) {

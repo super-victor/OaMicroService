@@ -1,15 +1,34 @@
 {
 	"pages": [
 		{
-			"path": "pages/DocumentCirculation/DocumentCirculation",
-			"style": {
-				"navigationBarTitleText": "公文流转"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/children/DraftDetail",
+			"style": {
+				"navigationBarTitleText": "公文详情"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/children/VerifyDraftDetail",
+			"style": {
+				"navigationBarTitleText": "待审拟稿详情"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/children/RejectDraftDetail",
+			"style": {
+				"navigationBarTitleText": "未过审拟稿详情"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/DocumentCirculation",
+			"style": {
+				"navigationBarTitleText": "公文流转",
+				"enablePullDownRefresh": true
 			}
 		},
 		{

@@ -39,33 +39,31 @@
 	export default {
 		data() {
 			return {
-				swiper_list:[
-					{
-						content:'12223',
-						location:'222',
-						remark:'3333',
-						startTime:'2019-32012',
-						endTime:'12320013'
-					},
-					{
-						content:'12223',
-						location:'222',
-						remark:'3333',
-						startTime:'2019-32012',
-						endTime:'12320013'
-					}
-				]
+				swiper_list:[null,null]
 			}
-		},
-		mounted() {
 		},
 		methods: {
             goRouter(router){
                 wx.navigateTo({
                     url: router
                 });
-            }
-		}
+						},
+			async getSchedule(){//获取职工最近未开始日程
+					const res = await this.$request({
+							url:'/findSchedule',
+							method:'GET'
+					})
+					return res.data;
+			}
+		},
+		mounted(){
+			if(wx.getStorageSync('userToken')){
+				this.getSchedule()
+				.then(res=>{
+					this.swiper_list = [res.object.companySchedule,res.object.selfSchedule];
+				})
+			}
+		},
 	}
 </script>
 

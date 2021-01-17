@@ -1,7 +1,7 @@
-//api.js
-const BASE_URL = 'http://101.201.254.63:8080';
+//api2.js
+const BASE_URL = 'http://192.168.31.116:8085';
 
-export const myRequest = (options)=>{
+export const myRequest2 = (options)=>{
     return new Promise((resolve,reject)=>{
         //加token
         uni.request({
@@ -9,8 +9,7 @@ export const myRequest = (options)=>{
             method: options.method || 'GET',
             data: options.data || {},
             header:{
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'token' : wx.getStorageSync('userToken')
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             success: (res)=>{
                 resolve(res);
