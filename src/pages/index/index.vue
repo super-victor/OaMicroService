@@ -54,28 +54,28 @@ import Swiper from '../../components/index/swiper.vue'
 					{
 						name:'名片夹',
 						src:'../../static/menu/card_holder_opt.png',
-						route:''
+						route:'/pages/CardFile/CardFile'
 					},
 					{
 						name:'日程安排',
 						src:'../../static/menu/schedule_opt.png',
-						route:''
+						route:'/pages/Schedule/Schedule'
 					},
 					{
 						name:'通讯录',
 						src:'../../static/menu/address_book_opt.png',
-						route:''
+						route:'/pages/AddrList/AddrList'
 					}
 				],[
 					{
 						name:'会议室管理',
 						src:'../../static/menu/meetingroom_opt.png',
-						route:''
+						route:'/pages/MeetingroomManage/MeetingroomManage'
 					},
 					{
 						name:'会议管理',
 						src:'../../static/menu/meeting_opt.png',
-						route:''
+						route:'/pages/MeetingManage/MeetingManage'
 					},
 					{
 						name:'公文流转',

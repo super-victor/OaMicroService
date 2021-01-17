@@ -8,7 +8,7 @@
 		</view>
 		<view class="helpBox">
 			<view class="contentBox">
-				<view class="contents" @tap="clickList('/pages/personal/myBenefit',1)">
+				<view class="contents" @tap="clickList('/pages/MeetingManage/MeetingManage?id=1',1)">
 					<image class="icon" src="../../static/icon/wait-meeting.png"></image>
 					<view class="text">待审会议</view>
 				</view>

@@ -1,9 +1,34 @@
 {
 	"pages": [
+		
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/CardFile/CardFile",
+			"style": {
+				"navigationBarTitleText": "名片夹"
+			}
+		},
+		{
+			"path": "pages/CardFile/children/cardAdd",
+			"style": {
+				"navigationBarTitleText": "名片添加"
+			}
+		},
+		{
+			"path": "pages/Schedule/children/scheduleAdd",
+			"style": {
+				"navigationBarTitleText": "日程添加"
+			}
+		},
+		{
+			"path": "pages/Schedule/Schedule",
+			"style": {
+				"navigationBarTitleText": "日程安排"
 			}
 		},
 		{
@@ -32,6 +57,12 @@
 			}
 		},
 		{
+			"path": "pages/Schedule/children/scheduleEdit",
+			"style": {
+				"navigationBarTitleText": "日程编辑"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "消息中心",
@@ -51,9 +82,33 @@
 			}
 		},
 		{
+			"path": "pages/AddrList/AddrList",
+			"style": {
+				"navigationBarTitleText": "通讯录查询"
+			}
+		},
+		{
+			"path": "pages/MeetingroomManage/MeetingroomManage",
+			"style": {
+				"navigationBarTitleText": "会议室管理"
+			}
+		},
+		{
+			"path": "pages/MeetingManage/MeetingManage",
+			"style": {
+				"navigationBarTitleText": "会议管理"
+			}
+		},
+			{
 			"path": "pages/personal/children/personalInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/AddrList/Children/AddrDetails",
+			"style": {
+				"navigationBarTitleText": "详情"
 			}
 		}
 	],
