@@ -1,5 +1,6 @@
 {
 	"pages": [
+		
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -10,6 +11,12 @@
 			"path": "pages/CardFile/CardFile",
 			"style": {
 				"navigationBarTitleText": "名片夹"
+			}
+		},
+		{
+			"path": "pages/CardFile/children/cardAdd",
+			"style": {
+				"navigationBarTitleText": "名片添加"
 			}
 		},
 		{

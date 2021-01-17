@@ -29,12 +29,13 @@ import uniCalendar from '@dcloudio/uni-ui/lib/uni-calendar/uni-calendar.vue';
 import uniPopup from "@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue";
 import uniFab from '@dcloudio/uni-ui/lib/uni-fab/uni-fab.vue';
 import PopBottom from './components/PopBottom.vue';
-import ourLoading from '@/components/our-loading/our-loading.vue'
+import ourLoading from '../../components/our-loading/our-loading.vue'
 export default {
     components:{
         uniCalendar,
         uniPopup,
         uniFab,
+        ourLoading,
         PopBottom
     },
     onLoad(){
@@ -89,14 +90,14 @@ export default {
         },
         async getSelfSchedule(){
             const res = await this.$request({
-                url:'/findSelfSchedule',
+                url:'/w/findSelfSchedule',
                 method:'get',
             })
             return res.data;
         },
         async getCompanySchedule(){
             const res = await this.$request({
-                url:'/findCompanySchedule',
+                url:'/w/findCompanySchedule',
                 method:'get',
                 // throttle:true,
             })
@@ -144,7 +145,7 @@ export default {
                         info:`${element.count}项日程`
                     }) 
                 });
-                this.isActive = true;
+                this.isActive = false;
             })
             .catch(err=>{
                 console.log(err);

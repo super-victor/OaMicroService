@@ -9,16 +9,16 @@
         </view>
         <view class="schedule_row">
             <text>2.开始时间</text>
-            <view class="time_row">
+            <view class="time_row" @click.stop="openCalendar('start')">
                 <input v-model="startTime" placeholder="请选择开始时间" disabled/>
-                <view class="select_time" @click.stop="openCalendar('start')">选择</view>
+                <view class="select_time">选择</view>
             </view>
         </view>
         <view class="schedule_row">
             <text>3.结束时间</text>
-            <view class="time_row">
+            <view class="time_row" @click.stop="openCalendar('end')">
                 <input v-model="endTime" placeholder="请选择结束时间" disabled/>
-                <view class="select_time" @click.stop="openCalendar('end')">选择</view>
+                <view class="select_time">选择</view>
             </view>
         </view>
         <view class="schedule_row">
