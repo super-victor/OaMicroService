@@ -36,27 +36,32 @@
             closebox(){
                 this.$emit('close',false);
             },
-            async setUserInfo(msg){//存储信息到数据库
-                const res = await this.request({
-                    url:'/user/setBasicInfo',
+            async setUserInfo(info){//存储信息到数据库
+                const res = await this.$request2({
+                    url:'/wx/updateWxInfo',
                     method:'POST',
-                    data:{
-                        nickname:msg.nickName,
-                        url:msg.avatarUrl
-                    }
+                    data:info
                 })
                 return res.data;
             },
             bindGetUserInfo (e) {
                 if(e.detail.errMsg==='getUserInfo:ok'){
-                    // this.setUserInfo(e.detail.userInfo)
-                    // .then(res=>{
-                    //     if(res.error===114){
-                    //         console.log("权限认证错误");
-                    //     }else{
-                    //         this.$emit('refresh',{nickname:e.detail.userInfo.nickName,url:e.detail.userInfo.avatarUrl});
-                    //     }
-                    // })
+                    this.setUserInfo({
+                        nickname:e.detail.userInfo.nickName,
+                        url:e.detail.userInfo.avatarUrl,
+                        openid:wx.getStorageSync('userId')
+                    })
+                    .then(res=>{
+                        if(res.status!==200){
+                            wx.showToast({
+                                    title:'信息保存失败',
+                                    icon:'none',
+                                    duration: 2500
+                            });
+                        }else{
+                            this.$emit('refresh',{nickname:e.detail.userInfo.nickName,url:e.detail.userInfo.avatarUrl});
+                        }
+                    })
                     wx.setStorage({
                         key:'userUrl',
                         data:e.detail.userInfo.avatarUrl

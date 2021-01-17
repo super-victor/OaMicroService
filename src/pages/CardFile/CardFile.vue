@@ -2,6 +2,7 @@
     <view class="card_file">
         <view class="title">
             <text>我的名片夹</text>
+            <button @tap="addCard">添加</button>
         </view>
         <scroll-view scroll-y="true" class="card_area">
             <view
@@ -35,52 +36,29 @@
 </template>
 
 <script>
+import ourLoading from '../../components/our-loading/our-loading.vue'
 export default {
+    components: {
+        ourLoading
+    },
     data() {
         return {
             isActive:true,
-            cardList:[{
-                name:'张菲燕',
-                phone:'13348943243',
-                email:'yu@163.com',
-                company:'Sicnu',
-                address:'成龙',
-                cardId:0,
-            },{
-                name:'张菲燕',
-                phone:'13348943243',
-                email:'yu@163.com',
-                company:'Sicnu',
-                address:'成龙',
-                cardId:1,
-            },{
-                name:'张菲燕',
-                phone:'13348943243',
-                email:'yu@163.com',
-                company:'Sicnu',
-                address:'成龙',
-                cardId:2,
-            },{
-                name:'张菲燕',
-                phone:'13348943243',
-                email:'yu@163.com',
-                company:'Sicnu',
-                address:'成龙',
-                cardId:3,
-            },{
-                name:'张菲燕',
-                phone:'13348943243',
-                email:'yu@163.com',
-                company:'Sicnu',
-                address:'成龙',
-                cardId:4,
-            }]
+            cardList:[]
+        }
+    },
+    onLoad(option) {
+        this.getCardList();
+        if (JSON.stringify(option) !== '{}') {
+            const item = JSON.parse(decodeURIComponent(option.item));
+            console.log(item[0]);
+            this.cardList.unshift(item[0]);
         }
     },
     methods: {
-        async getcard() {
-            const res = await this.$request({
-                url:'Card',
+        async getCard() {
+            const res = await this.$request2({
+                url:'w/Card',
                 metod:'GET',
             })
             return res.data;
@@ -88,15 +66,22 @@ export default {
         getCardList () {
             this.getCard()
             .then(res=>{
-                this.cardList = res.object;
+                res.object.forEach(element => {
+                    this.cardList.push(element);
+                });
                 this.isActive=false;
             })
             .catch(err=>{
                 wx.showToast({
-                    title:'修改失败',
+                    title:'获取失败',
                     icon:'none',
                     duration: 2500
                 });
+            })
+        },
+        addCard() {
+            uni.navigateTo({
+                url:'/pages/CardFile/children/cardAdd'
             })
         }
     }
@@ -109,16 +94,30 @@ export default {
     .title {
         font-size: 40rpx;
         margin-bottom: 30rpx;
+        display: flex;
+        justify-content: space-between;
+        height: 50rpx;
         text::before {
             content: '|';
             color: #5383EC;
             font-size: 50rpx;
             font-weight: bolder;
             width: 50rpx;
+            margin-right: 20rpx;
+        }
+        button {
+            font-size: 25rpx;
+            height: 60rpx;
+            margin: 0;
+            background-color: #9CB7F0;
+            color: #fff;
+            margin-right: 20rpx;
+            margin-top: 5rpx;
         }
     }
     .card_area {
         overflow-y: scroll;
+        height: auto;
         padding: 20rpx;
         .card_item {
             background-color: #EFEFEE;

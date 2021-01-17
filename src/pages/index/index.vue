@@ -47,6 +47,9 @@ import Swiper from '../../components/index/swiper.vue'
 		data() {
 			return {
 				title : '首页',
+				canGetIn:true,
+				canUpdate:true,
+				isFirst:true,
 				menuList:[[
 					{
 						name:'名片夹',
@@ -82,23 +85,99 @@ import Swiper from '../../components/index/swiper.vue'
 				]]
 			}
 		},
-		onLoad() {
+		onLoad(){
+		},
+		onShow() {
+			// /*
+			if(wx.getStorageSync('userToken')!='' && wx.getStorageSync('userUrl')!=''){
+				this.canGetIn = true;
+				this.canUpdate = false;
+			}
+			wx.showNavigationBarLoading();
+			let _this = this;
+			if(_this.canUpdate) _this.canGetIn = false;
 			wx.login({
 				success (res) {
 					if (res.code) {
 						//发起网络请求
-						console.log(res)
+						_this.login({
+							code: res.code
+						})
+						.then(res=>{
+							if(res.status!=200){
+								wx.showToast({
+										title:'获取登录态失败',
+										icon:'none',
+										duration: 2500
+								});
+								wx.hideNavigationBarLoading();
+							}else{
+								let {openId,token} = res.object;
+								if(token){
+										wx.setStorage({
+											key:"userToken",
+											data:token
+										})
+										_this.canGetIn = true;
+								}
+								if(openId){
+									wx.setStorage({
+										key:"userId",
+										data:openId
+									})
+								}
+								if(_this.isFirst){
+									wx.showToast({
+											title:'更新登录态',
+											icon:'none',
+											duration: 2500
+									});
+									_this.isFirst = false;
+								}
+								wx.hideNavigationBarLoading();
+							}
+						})
 					} else {
-						console.log('登录失败！' + res.errMsg)
+							wx.showToast({
+									title:'获取登录态失败',
+									icon:'none',
+									duration: 2500
+							});
+							wx.hideNavigationBarLoading();
 					}
 				}
 			})
+			// */
 		},
 		methods: {
 			goto(route){
-				wx.navigateTo({
-						url: route
-				});
+				if(!this.canGetIn){
+					uni.showModal({
+							title:'提示',
+							content:'使用服务前，请先前往 [我的]-[身份绑定] 绑定客户端账号，并点击头像授权系统获取您的基础信息',
+							cancelText:'暂不前往',
+							confirmText:'立即前往',
+							success: (res) => {
+									if (res.confirm) {
+											wx.switchTab({
+													url: '/pages/personal/personal'
+											});
+									}
+							}
+					})
+				}else{
+					wx.navigateTo({
+							url: route
+					});
+				}
+			},
+			async login(info){//登录
+					const res = await this.$request2({
+							url:'/wx/auth',
+							method:'GET',
+							data:info
+					})
+					return res.data;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 {
 	"pages": [
+		
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -10,6 +11,12 @@
 			"path": "pages/CardFile/CardFile",
 			"style": {
 				"navigationBarTitleText": "名片夹"
+			}
+		},
+		{
+			"path": "pages/CardFile/children/cardAdd",
+			"style": {
+				"navigationBarTitleText": "名片添加"
 			}
 		},
 		{
@@ -31,6 +38,24 @@
 				"navigationBarTitleText": "公文流转"
 			}
 		},{
+			"path": "pages/DocumentCirculation/children/DraftDetail",
+			"style": {
+				"navigationBarTitleText": "公文详情"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/children/VerifyDraftDetail",
+			"style": {
+				"navigationBarTitleText": "待审拟稿详情"
+			}
+		},
+		{
+			"path": "pages/DocumentCirculation/children/RejectDraftDetail",
+			"style": {
+				"navigationBarTitleText": "未过审拟稿详情"
+			}
+		},
+		{
 			"path": "pages/Schedule/children/scheduleEdit",
 			"style": {
 				"navigationBarTitleText": "日程编辑"

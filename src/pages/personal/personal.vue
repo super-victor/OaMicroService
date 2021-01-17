@@ -14,7 +14,7 @@
 				</view>
 			</view>
 			<view class="contentBox">
-				<view class="contents" @tap="clickList('/pages/personal/myActive',1)">
+				<view class="contents" @tap="clickList('/pages/DocumentCirculation/DocumentCirculation?id=1',1)">
 					<image class="icon" src="../../static/icon/wait-document.png"></image>
 					<view class="text">待审公文</view>
 				</view>
@@ -51,67 +51,85 @@
 		onLoad() {
 		},
 		onShow() {
-			// this.change = false;
-			// wx.showNavigationBarLoading();
-			// //已经获取了用户信息
-			// if(this.url!=''){
-			// 	wx.hideNavigationBarLoading();
-			// }else{
-			// 	this.$myGetUserInfo()
-			// 	.then(res=>{
-			// 		//如果能取到数据
-			// 		if(res.error!==2){
-			// 			let {nickname,url} = res;
-			// 			this.name = nickname;
-			// 			this.url = url;
-			// 			this.canlogin = false;
-			// 			wx.hideNavigationBarLoading();
-			// 			//判断信息的来源
-			// 			//如果来自数据库（系统未获得权限）
-			// 			if(res.error===0){
-			// 				uni.showModal({
-			// 					title:'提示',
-			// 					content:'为了更好地为您提供服务，平台仅会获取您的头像、昵称等非敏感信息，如您允许我们使用信息，请前往修改页面打开权限许可',
-			// 					cancelText:'暂不修改',
-			// 					confirmText:'前往修改',
-			// 					success: (res) => {
-			// 						if (res.confirm) {
-			// 						wx.openSetting({
-			// 							success: (res) => {
-			// 								if(res.authSetting["scope.userInfo"]){
-			// 									wx.getUserInfo({
-			// 										lang:'zh_CN',
-			// 										withCredentials:false,
-			// 										success:(res)=>{
-			// 											//存入数据库
-			// 											// this.$myRequest({
-			// 											// 	url:'/user/setBasicInfo',
-			// 											// 	method:'POST',
-			// 											// 	check:true,
-			// 											// 	user:true,
-			// 											// 	data:{
-			// 											// 		nickname:res.userInfo.nickName,
-			// 											// 		url:res.userInfo.avatarUrl,
-			// 											// 	}
-			// 											// })
-			// 										}
-			// 									})
-			// 								}
-			// 							}
-			// 						})
-			// 						}
-			// 					}
-			// 				})
-			// 			}
-			// 		}else{
-			// 			//没有取到数据
-			// 			this.canlogin=true;
-			// 			wx.hideNavigationBarLoading();
-			// 		}
-			// 	})
-			// }
+			this.change = false;
+			wx.showNavigationBarLoading();
+			let _this = this;
+			//已经获取了用户信息
+			if(this.url!=''){
+        wx.getSetting({
+            success: res => {
+                if(res.authSetting['scope.userInfo']){
+                    wx.getUserInfo({
+                        lang:'zh_CN',
+                        withCredentials:false,
+                        success:(res)=>{
+													_this.name = res.userInfo.nickName;
+													_this.url = res.userInfo.avatarUrl;
+                        }
+                    })
+                }else{
+									uni.showModal({
+										title:'提示',
+										content:'为了更好地为您提供服务，平台仅会获取您的头像、昵称等非敏感信息，如您允许我们使用信息，请前往修改页面打开权限许可',
+										cancelText:'暂不修改',
+										confirmText:'前往修改',
+										success: (res) => {
+											if (res.confirm) {
+											wx.openSetting({
+												success: (res) => {
+													if(res.authSetting["scope.userInfo"]){
+														wx.getUserInfo({
+															lang:'zh_CN',
+															withCredentials:false,
+															success:(res)=>{
+																	_this.setUserInfo({
+																			nickname:res.userInfo.nickName,
+																			url:res.userInfo.avatarUrl,
+																			openid:wx.getStorageSync('userId')
+																	})
+																	.then(res=>{
+																			if(res.status!==200){
+																					wx.showToast({
+																									title:'信息保存失败',
+																									icon:'none',
+																									duration: 2500
+																					});
+																			}
+																	})
+															}
+														})
+													}
+												}
+											})
+											}
+										}
+									})
+                }
+            }
+        })
+				wx.hideNavigationBarLoading();
+			}else{
+					if(wx.getStorageSync('userUrl')!=''){
+						this.name = wx.getStorageSync('userNickName');
+						this.url = wx.getStorageSync('userUrl');
+						this.canlogin = false;
+						wx.hideNavigationBarLoading();
+					}else{
+						//没有取到数据
+						this.canlogin=true;
+						wx.hideNavigationBarLoading();
+					}
+			}
 		},
 		methods: {
+			async setUserInfo(info){//存储信息到数据库
+					const res = await this.$request2({
+							url:'/wx/updateWxInfo',
+							method:'POST',
+							data:info
+					})
+					return res.data;
+			},
 			closeBox(msg){
 				this.change=msg;
 			},
@@ -138,6 +156,14 @@
 						this.change=true;
 						return;
 					}else{
+						if(wx.getStorageSync('userToken')==''){
+								wx.showToast({
+										title:'请先进行账号绑定',
+										icon:'none',
+										duration: 500
+								});
+								return;
+						}
 						wx.navigateTo({
 							url: pageUrl
 						})
