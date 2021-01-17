@@ -3,28 +3,28 @@
         <text class="popText">{{dateClick}}</text>
         <scroll-view scroll-y="true" class="event">
             <view
-            v-for="item in eventsList"
-            :key="item.id"
+            v-for="item in infoList"
+            :key="item.scheduleId"
             class="event_item">
                 <view class="schedule_row">
                     <image src="../../../static/schedule/time.png"></image>
-                    <text>2020-01-22至2020-01-23</text>
+                    <text>{{ item.startTime }}至{{item.endTime}}</text>
                 </view>
                 <view class="schedule_row">
                     <image src="../../../static/schedule/position.png"></image>
-                    <text>地点：师大花园</text>
+                    <text>地点：{{ item.location }}</text>
                 </view>
                 <view class="schedule_row">
                     <image src="../../../static/schedule/schedule.png"></image>
-                    <text>日程：聚餐</text>
+                    <text>日程：{{ item.content }}</text>
                 </view>
                 <view class="schedule_row">
                     <image src="../../../static/schedule/type.png"></image>
-                    <text>类型：个人日程</text>
+                    <text>类型：{{ item.type }}</text>
                 </view>
                 <view class="event_edit">
-                    <button class="button edit" @click="editSchedule(item)">编辑</button>
-                    <button class="button delete" @click="deleteSchedule">删除</button>
+                    <button class="button edit" @tap="editSchedule(item)">编辑</button>
+                    <button class="button delete" @tap="deleteSchedule(item.scheduleId)">删除</button>
                 </view>
             </view>
         </scroll-view>
@@ -34,40 +34,61 @@
 <script>
 import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup';
 export default {
-    props:['dateClick'],
+    props:['dateClick','infoList'],
     components: {
         uniPopup
     },
     data() {
         return {
-            eventsList:[{
-                id:0
-            },{
-                id:1
-            },{
-                id:2
-            },{
-                id:3
-            },{
-                id:4
-            },{
-                id:5
-            },{
-                id:6
-            }]
+            us:'a'
         }
     },
     methods: {
         editSchedule(item) {
+            // console.log(item);
             uni.navigateTo({
-                url:`/pages/Schedule/children/scheduleEdit?id=${item.id}`
+                url:`/pages/Schedule/children/scheduleEdit?item=${encodeURIComponent(JSON.stringify(item))}`
             });
         },
-        close() {
-
+        async deleteSelfSchedule(data){
+            const res = await this.$request({
+                url:'/SelfSchedule',
+                method:'delete',
+                data
+            })
+            return res.data;
         },
-        confirm() {
-
+        deleteSchedule(id){
+            uni.showModal({
+                title: '确认',
+                content: '您确认要删除该项日程吗？',
+                success: (res) => {
+                    if (res.confirm) {
+                        this.deleteInfo(id);
+                    } else if (res.cancel) {
+                        console.log('用户点击取消');
+                    }
+                }
+            })
+        },
+        deleteInfo(id) {
+            this.deleteSelfSchedule({
+                scheduleId:id
+            })
+            .then(res=>{
+                if (res.status === 200) {
+                    uni.navigateTo({
+                        url:'/pages/Schedule/Schedule'
+                    })
+                }
+            })
+            .catch(err=>{
+                wx.showToast({
+                    title:'修改失败',
+                    icon:'none',
+                    duration: 2500
+                });
+            })
         }
     }
 }
@@ -81,7 +102,7 @@ export default {
     display: flex;
     flex-direction: column;
     .popText {
-        height: 100rpx;
+        height: 50rpx;
         box-shadow:0px 1px 1px #EFEFEE;
         padding: 20rpx;
         color: $uni-text-color;

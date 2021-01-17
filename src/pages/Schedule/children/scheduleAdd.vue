@@ -10,27 +10,35 @@
         <view class="schedule_row">
             <text>2.开始时间</text>
             <view class="time_row">
-                <input v-model="startTime" disabled/>
+                <input v-model="startTime" placeholder="请选择开始时间" disabled/>
                 <view class="select_time" @click.stop="openCalendar('start')">选择</view>
             </view>
         </view>
         <view class="schedule_row">
             <text>3.结束时间</text>
             <view class="time_row">
-                <input v-model="endTime" disabled/>
+                <input v-model="endTime" placeholder="请选择结束时间" disabled/>
                 <view class="select_time" @click.stop="openCalendar('end')">选择</view>
             </view>
         </view>
         <view class="schedule_row">
             <text>4.日程信息</text>
-            <input v-model="scheduleInfo" placeholder="请输入日程信息" class="input"/>
+            <input v-model="content" placeholder="请输入日程信息" class="input"/>
         </view>
         <view class="schedule_row">
             <text>5.日程地点</text>
-            <input v-model="position" placeholder="请输入日程地点" class="input"/>
+            <input v-model="location" placeholder="请输入日程地点" class="input"/>
+        </view>
+        <view class="schedule_row" v-if="scheduleType==='公司日程'">
+            <text>6.参与人员</text>
+            <uni-combox
+            :candidates="joiner"
+            placeholder="请选择参与人员"
+            class="input"
+            ></uni-combox>
         </view>
         <view class="button_row">
-            <button>提交</button>
+            <button @tap="newSchedule">提交</button>
         </view>
         <date-picker
         ref='calendarPicker' 
@@ -62,11 +70,11 @@ export default {
             time: '请选择时间',
             currentTime:'',
             level: '6',
-            startTime:'2020-01-09 00:00:00',
-            endTime:'2020-01-09 00:00:00',
+            startTime:'',
+            endTime:'',
             scheduleType: '个人日程',
-            scheduleInfo: '聚餐',
-            position: 'star',
+            content: '',
+            location: '',
             joiner:['小花','张三'],
             timeType:'',
         }
@@ -90,7 +98,7 @@ export default {
                 // console.log(this.currentTime);
             }
         }
-        console.log(this.currentTime);
+        // console.log(this.currentTime);
     },
     methods: {
         openCalendar(type){
@@ -127,6 +135,34 @@ export default {
             }else{
                 this.time = dateTime;
             }
+        },
+        async addSelfSchedule(data){
+            const res = await this.$request({
+                url:'/SelfSchedule',
+                method:'post',
+                data
+            })
+            return res.data;
+        },
+        newSchedule() {
+            this.addSelfSchedule({
+                content:this.content,
+                startTime: this.startTime,
+                endTime: this.endTime,
+                location: this.location,
+            })
+            .then(res=>{
+                uni.navigateTo({
+                    url:'/pages/Schedule/Schedule'
+                })
+            })
+            .catch(err=>{
+                wx.showToast({
+                    title:'添加失败',
+                    icon:'none',
+                    duration: 2500
+                });
+            })
         }
     },
 }

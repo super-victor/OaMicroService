@@ -1,12 +1,6 @@
 {
 	"pages": [
 		{
-			"path": "pages/DocumentCirculation/DocumentCirculation",
-			"style": {
-				"navigationBarTitleText": "公文流转"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -19,21 +13,29 @@
 			}
 		},
 		{
+			"path": "pages/Schedule/children/scheduleAdd",
+			"style": {
+				"navigationBarTitleText": "日程添加"
+			}
+		},
+		{
 			"path": "pages/Schedule/Schedule",
 			"style": {
 				"navigationBarTitleText": "日程安排"
 			}
 		},
 		{
+			"path": "pages/DocumentCirculation/DocumentCirculation",
+			"style": {
+				"navigationBarTitleText": "公文流转"
+			}
+		},
+		
+		
+		{
 			"path": "pages/Schedule/children/scheduleEdit",
 			"style": {
 				"navigationBarTitleText": "日程编辑"
-			}
-		},
-		{
-			"path": "pages/Schedule/children/scheduleAdd",
-			"style": {
-				"navigationBarTitleText": "日程添加"
 			}
 		},
 		{

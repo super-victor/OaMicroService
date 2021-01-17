@@ -18,8 +18,9 @@
             ></uni-fab>
         </view>
         <uni-popup ref="popup" type="bottom">
-            <pop-bottom :dateClick="clickDate"></pop-bottom>
+            <pop-bottom :dateClick="clickDate" :infoList="dateInfoList"></pop-bottom>
         </uni-popup>
+        <ourLoading :active='isActive' text="loading..." />
     </view>
 </template>
 
@@ -28,6 +29,7 @@ import uniCalendar from '@dcloudio/uni-ui/lib/uni-calendar/uni-calendar.vue';
 import uniPopup from "@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue";
 import uniFab from '@dcloudio/uni-ui/lib/uni-fab/uni-fab.vue';
 import PopBottom from './components/PopBottom.vue';
+import ourLoading from '@/components/our-loading/our-loading.vue'
 export default {
     components:{
         uniCalendar,
@@ -35,19 +37,23 @@ export default {
         uniFab,
         PopBottom
     },
+    onLoad(){
+        this.getPersonInfo();
+    },
     data() {
         return {
-            select:[{
-                date:'2021-01-09',
-                info:'3项日程',
-            },{
-                date:'2021-01-10'
-            }],
+            select:[],
+            isActive:true,
             clickDate:'',
             pattern:{
                 color: '#5383EC',
                 buttonColor: '#5383EC',
             },
+            dateArray:[],
+            personSchedule:[],
+            companySchedule:[],
+            scheduleList:[],
+            dateInfoList:[],
              content: [
                 {
                     text: '个人',
@@ -66,17 +72,109 @@ export default {
     },
     methods: {
         change(e) {
+            this.dateInfoList = [];
             if (JSON.stringify(e.extraInfo) !== '{}') {
                 this.$refs.popup.open();
+                this.scheduleList.forEach(element => {
+                    const timeArray = element.startTime.split(' ');
+                    const timeOne = timeArray[0];
+                    if (timeOne === e.fulldate) {
+                        this.dateInfoList.push(element);
+                    }
+                });
+                // console.log(this.dateInfoList);
             }
             this.clickDate=e.fulldate;
-            console.log(e);
+            // console.log(e);
+        },
+        async getSelfSchedule(){
+            const res = await this.$request({
+                url:'/findSelfSchedule',
+                method:'get',
+            })
+            return res.data;
+        },
+        async getCompanySchedule(){
+            const res = await this.$request({
+                url:'/findCompanySchedule',
+                method:'get',
+                // throttle:true,
+            })
+            return res.data;
+        },
+        getPersonInfo () {
+            this.getSelfSchedule()
+            .then(res=>{
+                this.personSchedule = res.object;
+                if (this.personSchedule.length !==0 ) {
+                    this.personSchedule.forEach(element => {
+                        element.type = '个人日程';
+                        this.scheduleList.push(element);
+                        const timeArray = element.startTime.split(' ');
+                        this.dateArray.push(timeArray[0]);
+                    });
+                }
+                this.getCompanyInfo();
+            })
+            .catch(err=>{
+                console.log(err);
+                wx.showToast({
+                    title:'获取失败',
+                    icon:'none',
+                    duration: 2500
+                });
+            })
+        },
+        getCompanyInfo () {
+            this.getCompanySchedule()
+            .then(res=>{
+                this.companySchedule = res.object;
+                if (this.companySchedule.length !==0 ) {
+                    this.companySchedule.forEach(element => {
+                        element.type = '公司日程';
+                        this.scheduleList.push(element);
+                        const timeArray = element.startTime.split(' ');
+                        this.dateArray.push(timeArray[0]);
+                    });
+                }
+                const resarray = this.getCount(this.dateArray);
+                resarray.forEach(element => {
+                    this.select.push({
+                        date:element.el,
+                        info:`${element.count}项日程`
+                    }) 
+                });
+                this.isActive = true;
+            })
+            .catch(err=>{
+                console.log(err);
+                wx.showToast({
+                    title:'获取失败',
+                    icon:'none',
+                    duration: 2500
+                });
+            })
         },
         trigger(e) {
-            console.log(e);
+            // console.log(e);
             uni.navigateTo({
                 url:`/pages/Schedule/children/scheduleAdd?id=${e.index}`
             });
+        },
+        getCount(arr){ 
+            var obj = {}, k, arr1 = [];
+            for (var i = 0, len = arr.length; i < len; i++) {
+                k = arr[i];
+                if (obj[k]) 
+                    obj[k]++;
+                else 
+                    obj[k] = 1;
+            }
+            //保存结果{el-'元素'，count-出现次数}
+            for (var o in obj) {
+                arr1.push({el: o, count: obj[o]});
+            }
+            return arr1.slice(0);
         }
     }
 }

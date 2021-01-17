@@ -23,14 +23,14 @@
         </view>
         <view class="schedule_row">
             <text>4.日程信息</text>
-            <input value="聚餐" placeholder="请输入日程信息" class="input"/>
+            <input v-model="content" placeholder="请输入日程信息" class="input"/>
         </view>
         <view class="schedule_row">
             <text>5.日程地点</text>
-            <input value="star" placeholder="请输入日程地点" class="input"/>
+            <input v-model="location" placeholder="请输入日程地点" class="input"/>
         </view>
         <view class="button_row">
-            <button>提交</button>
+            <button @tap="submitUpdate">提交</button>
         </view>
         <date-picker
         ref='calendarPicker' 
@@ -60,14 +60,22 @@ export default {
             time: '请选择时间',
             currentTime:'',
             level: '6',
-            startTime:'2020-01-09 00:00:00',
-            endTime:'2020-01-09 00:00:00',
+            startTime:'',
+            endTime:'',
+            content: '',
+            location: '',
             scheduleType: '个人日程',
+            scheduleId:0,
             timeType:'',
         }
     },
     onLoad(option) {
-        console.log(option);
+        const item = JSON.parse(decodeURIComponent(option.item));
+        this.startTime = item.startTime;
+        this.endTime = item.endTime;
+        this.location = item.location;
+        this.content = item.content;
+        this.scheduleId = item.scheduleId;
         var date = new Date().toLocaleString();
         const timeArray = date.split(' ');
         const timebe = timeArray[0].replace(/\//g,'-');
@@ -80,7 +88,7 @@ export default {
                 console.log(this.currentTime);
             }
         }
-        console.log(this.currentTime);
+        // console.log(this.currentTime);
     },
     methods: {
         openCalendar(type){
@@ -117,6 +125,38 @@ export default {
             }else{
                 this.time = dateTime;
             }
+        },
+        async updateSelfSchedule(data){
+            const res = await this.$request({
+                url:'/SelfSchedule',
+                method:'put',
+                // throttle:true,
+                data
+            })
+            return res.data;
+        },
+        submitUpdate() {
+            this.updateSelfSchedule({
+                content:this.content,
+                startTime: this.startTime,
+                endTime: this.endTime,
+                location: this.location,
+                scheduleId: this.scheduleId,
+            })
+            .then(res=>{
+                if (res.status === 200) {
+                    uni.navigateTo({
+                        url:'/pages/Schedule/Schedule'
+                    })
+                }
+            })
+            .catch(err=>{
+                wx.showToast({
+                    title:'修改失败',
+                    icon:'none',
+                    duration: 2500
+                });
+            })
         }
     },
 }
