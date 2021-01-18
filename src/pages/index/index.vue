@@ -112,7 +112,17 @@ import Swiper from '../../components/index/swiper.vue'
 								});
 								wx.hideNavigationBarLoading();
 							}else{
-								let {openId,token} = res.object;
+								let {openId,token,wxInfo} = res.object;
+								if(wxInfo){
+									wx.setStorage({
+											key:'userUrl',
+											data:wxInfo.url
+									})
+									wx.setStorage({
+											key:'userNickName',
+											data:wxInfo.nickname
+									})
+								}
 								if(token){
 										wx.setStorage({
 											key:"userToken",

@@ -57,8 +57,8 @@ export default {
     },
     methods: {
         async getCard() {
-            const res = await this.$request2({
-                url:'w/Card',
+            const res = await this.$request({
+                url:'/Card',
                 metod:'GET',
             })
             return res.data;

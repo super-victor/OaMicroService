@@ -89,15 +89,15 @@ export default {
             // console.log(e);
         },
         async getSelfSchedule(){
-            const res = await this.$request2({
-                url:'/w/findSelfSchedule',
+            const res = await this.$request({
+                url:'/findSelfSchedule',
                 method:'get',
             })
             return res.data;
         },
         async getCompanySchedule(){
-            const res = await this.$request2({
-                url:'/w/findCompanySchedule',
+            const res = await this.$request({
+                url:'/findCompanySchedule',
                 method:'get',
                 // throttle:true,
             })

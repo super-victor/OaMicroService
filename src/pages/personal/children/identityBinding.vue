@@ -101,7 +101,6 @@ import ourLoading from '@/components/our-loading/our-loading.vue'
                             duration: 2500
                         });
                     }else{
-                      console.log(res)
                         wx.setStorage({
                           key:'userInfo',
                           data:res.object.userInfo
