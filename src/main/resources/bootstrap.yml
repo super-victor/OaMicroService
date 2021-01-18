@@ -1,0 +1,14 @@
+spring:   #注意这些信息得配置在bootstrap中才能生效
+  cloud:  #最终找到的配置文件  master分支下 demo-config-dev.yml
+    config:
+      profile: dev  #对应文件配置规则profile部分
+      label: config #文件分支
+      uri: http://192.168.43.107:8083 #配置文件位置
+      name: common,${spring.application.name}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["info","health","refresh"] #如果所有就*

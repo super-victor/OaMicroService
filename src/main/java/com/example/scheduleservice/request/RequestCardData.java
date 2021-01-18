@@ -20,6 +20,14 @@ import java.util.List;
 @Service
 public interface RequestCardData {
 
+    /**
+     * @MethodName findCardByEmployeeId
+     * @param employeeId 用户ID
+     * @Description 获取一个人的名片
+     * @Author Waynejwei
+     * @Return java.util.List<com.example.scheduleservice.pojo.Card>
+     * @LastChangeDate 2021/1/18
+     */
     @GetMapping("/findCardByEmployeeId")
-    public List<Card> findCardByEmployeeId(@RequestParam int employeeId);
+    List<Card> findCardByEmployeeId(@RequestParam int employeeId);
 }

@@ -17,7 +17,8 @@ eureka:
     lease-expiration-duration-in-seconds: 10
   client:
     service-url:
-      defaultZone: http://121.196.40.164:8081/eureka
+      defaultZone: http://192.168.43.245:8081/eureka
+#      defaultZone: http://121.196.40.164:8081/eureka
 
 
 feign:
@@ -45,5 +46,9 @@ jwt:
 
 # ribbon的配置
 ribbon:
-  ReadTimeout: 30000
-  ConnectTimeout: 30000
+  ReadTimeout: 1200000
+  ConnectTimeout: 1200000
+management:
+  health:
+    neo4j:
+      enabled:
